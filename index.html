@@ -70,9 +70,9 @@
   <div class="ticker-bar">
     <div class="ticker-left"><div class="pulse-dot"></div><span>ORDERFLOW VERIFIED</span></div>
     <div class="ticker-links">
-      <button class="social-btn" onclick="directToWhatsApp('General Inquiry')">Chat</button>
-      <button class="social-btn" onclick="directToInstagram()">Instagram</button>
-      <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">Mode: Light</button>
+      <button class="social-btn" id="topChatBtn">Chat</button>
+      <button class="social-btn" id="topInstaBtn">Instagram</button>
+      <button class="theme-toggle-btn" id="themeToggleBtn">Mode: Light</button>
     </div>
   </div>
 
@@ -84,7 +84,7 @@
         <span>Proprietary HFT Scalp Playbook</span>
       </div>
     </div>
-    <button class="cta-nav-btn" onclick="goToPlanOne()">Get Immediate Access</button>
+    <button class="cta-nav-btn" id="ctaAccessBtn">Get Immediate Access</button>
   </header>
 
   <main class="container">
@@ -112,7 +112,7 @@
               <span style="color:var(--text-muted);">Duration (1 to 12 Months):</span>
               <span id="monthsDisplay" style="color:var(--cyan); font-weight:700;">1 Month (22 Trading Days)</span>
             </div>
-            <input type="range" class="calc-slider" id="monthsSlider" min="1" max="12" step="1" value="1" oninput="updateCalculator()">
+            <input type="range" class="calc-slider" id="monthsSlider" min="1" max="12" step="1" value="1">
           </div>
 
           <div class="slider-row">
@@ -120,7 +120,7 @@
               <span style="color:var(--text-muted);">Starting Capital Base:</span>
               <span id="capitalDisplay" style="color:var(--gold-light); font-weight:700;">$1,000</span>
             </div>
-            <input type="range" class="calc-slider" id="capitalSlider" min="300" max="10000" step="100" value="1000" oninput="onCapitalChange()">
+            <input type="range" class="calc-slider" id="capitalSlider" min="300" max="10000" step="100" value="1000">
           </div>
 
           <div class="slider-row">
@@ -128,7 +128,7 @@
               <span style="color:var(--text-muted);">Execution Frequency:</span>
               <span id="frequencyDisplay" style="color:var(--cyan); font-weight:700;">1 Trade / Day (22 Total)</span>
             </div>
-            <input type="range" class="calc-slider" id="frequencySlider" min="1" max="3" step="1" value="1" oninput="updateCalculator()">
+            <input type="range" class="calc-slider" id="frequencySlider" min="1" max="3" step="1" value="1">
           </div>
 
           <div class="slider-row">
@@ -136,7 +136,7 @@
               <span style="color:var(--text-muted);">Assumed Win Rate (Min 25%):</span>
               <span id="winRateDisplay" style="color:var(--gold-light); font-weight:700;">25% Win Rate</span>
             </div>
-            <input type="range" class="calc-slider" id="winRateSlider" min="25" max="70" step="1" value="25" oninput="updateCalculator()">
+            <input type="range" class="calc-slider" id="winRateSlider" min="25" max="70" step="1" value="25">
           </div>
 
           <div class="slider-row">
@@ -144,7 +144,7 @@
               <span style="color:var(--text-muted);">Hard Risk Per Trade (Max 5% Cap):</span>
               <span id="riskDisplay" style="color:var(--red); font-weight:700;">$44 (4.4% Risk)</span>
             </div>
-            <input type="range" class="calc-slider" id="riskSlider" min="5" max="50" step="1" value="44" oninput="updateCalculator()">
+            <input type="range" class="calc-slider" id="riskSlider" min="5" max="50" step="1" value="44">
           </div>
         </div>
 
@@ -197,8 +197,8 @@
             </ul>
           </div>
           <div class="tier-actions">
-            <button class="btn-action-primary" onclick="directToWhatsApp('Proprietary Playbook (₹9,999)')">Buy PDF on WhatsApp</button>
-            <button class="btn-action-secondary" onclick="directToInstagram()">Buy on Instagram DM (@him.tiw)</button>
+            <button class="btn-action-primary" id="buyPlaybookWa">Buy PDF on WhatsApp</button>
+            <button class="btn-action-secondary" id="buyPlaybookIg">Buy on Instagram DM (@him.tiw)</button>
           </div>
         </div>
 
@@ -220,8 +220,8 @@
             </ul>
           </div>
           <div class="tier-actions">
-            <button class="btn-action-primary" onclick="directToWhatsApp('Elite 1-on-1 Mentorship (₹29,999)')">Apply on WhatsApp</button>
-            <button class="btn-action-secondary" onclick="directToInstagram()">Apply on Instagram DM (@him.tiw)</button>
+            <button class="btn-action-primary" id="applyMentorWa">Apply on WhatsApp</button>
+            <button class="btn-action-secondary" id="applyMentorIg">Apply on Instagram DM (@him.tiw)</button>
           </div>
         </div>
       </div>
@@ -234,85 +234,103 @@
   </footer>
 
   <script>
-    
-        const WHATSAPP_NUM = "918369881031";
-    const INSTAGRAM_HANDLE = "him.tiw";
+    (function () {
+      const WHATSAPP_NUM = "918369881031";
+      const INSTAGRAM_HANDLE = "him.tiw";
 
-    function goToPlanOne() {
-      const card = document.getElementById('tierOneCard');
-      if (card) {
-        const topOffset = card.getBoundingClientRect().top + window.pageYOffset - 75;
-        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      function openWhatsApp(plan) {
+        const msg = encodeURIComponent("Hello Himanshu, I want to enroll in " + plan + ". Please share payment and enrollment details.");
+        window.location.href = "https://api.whatsapp.com/send?phone=" + WHATSAPP_NUM + "&text=" + msg;
       }
-    }
 
-    function onCapitalChange() {
-      const capital = parseFloat(document.getElementById('capitalSlider').value);
-      const riskSlider = document.getElementById('riskSlider');
-      const maxRiskAllowed = Math.round(capital * 0.05);
-      riskSlider.max = maxRiskAllowed;
-      if (parseFloat(riskSlider.value) > maxRiskAllowed) {
-        riskSlider.value = maxRiskAllowed;
+      function openInstagram() {
+        window.location.href = "https://instagram.com/" + INSTAGRAM_HANDLE;
       }
-      updateCalculator();
-    }
 
-    function updateCalculator() {
-      const months = parseInt(document.getElementById('monthsSlider').value);
-      const capital = parseFloat(document.getElementById('capitalSlider').value);
-      const tradesPerDay = parseInt(document.getElementById('frequencySlider').value);
-      const tradingDays = months * 22;
-      const totalTrades = tradesPerDay * tradingDays;
-      const winRatePct = parseInt(document.getElementById('winRateSlider').value);
-      const risk = parseFloat(document.getElementById('riskSlider').value);
-      const riskPct = ((risk / capital) * 100).toFixed(1);
-      const rr = 4.55;
-      const payoffPerWin = risk * rr;
+      function scrollToPlanOne() {
+        const card = document.getElementById('tierOneCard');
+        if (card) {
+          const topOffset = card.getBoundingClientRect().top + window.pageYOffset - 75;
+          window.scrollTo({ top: topOffset, behavior: 'smooth' });
+        }
+      }
 
-      const wins = Math.round(totalTrades * (winRatePct / 100));
-      const losses = totalTrades - wins;
-      const totalWinMoney = wins * payoffPerWin;
-      const totalLossMoney = losses * risk;
-      const netProfit = totalWinMoney - totalLossMoney;
-      const finalEquity = capital + netProfit;
-      const growthPct = ((netProfit / capital) * 100).toFixed(1);
+      function toggleTheme() {
+        const html = document.documentElement;
+        const current = html.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        document.getElementById('themeToggleBtn').innerText = next === 'light' ? 'Mode: Dark' : 'Mode: Light';
+      }
 
-      document.getElementById('monthsDisplay').innerText = `${months} ${months === 1 ? 'Month' : 'Months'} (${tradingDays} Trading Days)`;
-      document.getElementById('capitalDisplay').innerText = `$${capital.toLocaleString()}`;
-      document.getElementById('frequencyDisplay').innerText = `${tradesPerDay} ${tradesPerDay === 1 ? 'Trade' : 'Trades'} / Day (${totalTrades} Total)`;
-      document.getElementById('winRateDisplay').innerText = `${winRatePct}% Win Rate`;
-      document.getElementById('riskDisplay').innerText = `$${risk.toFixed(0)} (${riskPct}% Risk)`;
+      function updateCalculator() {
+        const months = parseInt(document.getElementById('monthsSlider').value, 10);
+        const capital = parseFloat(document.getElementById('capitalSlider').value);
+        const tradesPerDay = parseInt(document.getElementById('frequencySlider').value, 10);
+        const tradingDays = months * 22;
+        const totalTrades = tradesPerDay * tradingDays;
+        const winRatePct = parseInt(document.getElementById('winRateSlider').value, 10);
+        const risk = parseFloat(document.getElementById('riskSlider').value);
+        const riskPct = ((risk / capital) * 100).toFixed(1);
+        const rr = 4.55;
+        const payoffPerWin = risk * rr;
 
-      document.getElementById('dispBase').innerText = `$${capital.toLocaleString()}`;
-      document.getElementById('dispWinLoss').innerText = `${wins}W / ${losses}L`;
-      document.getElementById('dispWinRateSub').innerText = `At ${winRatePct}% Win Rate`;
+        const wins = Math.round(totalTrades * (winRatePct / 100));
+        const losses = totalTrades - wins;
+        const totalWinMoney = wins * payoffPerWin;
+        const totalLossMoney = losses * risk;
+        const netProfit = totalWinMoney - totalLossMoney;
+        const finalEquity = capital + netProfit;
+        const growthPct = ((netProfit / capital) * 100).toFixed(1);
 
-      const profitEl = document.getElementById('dispProfit');
-      profitEl.innerText = (netProfit >= 0 ? '+$' : '-$') + Math.abs(netProfit).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      profitEl.style.color = netProfit >= 0 ? 'var(--green)' : 'var(--red)';
+        document.getElementById('monthsDisplay').innerText = months + (months === 1 ? ' Month' : ' Months') + ' (' + tradingDays + ' Trading Days)';
+        document.getElementById('capitalDisplay').innerText = '$' + capital.toLocaleString();
+        document.getElementById('frequencyDisplay').innerText = tradesPerDay + (tradesPerDay === 1 ? ' Trade' : ' Trades') + ' / Day (' + totalTrades + ' Total)';
+        document.getElementById('winRateDisplay').innerText = winRatePct + '% Win Rate';
+        document.getElementById('riskDisplay').innerText = '$' + risk.toFixed(0) + ' (' + riskPct + '% Risk)';
 
-      document.getElementById('dispEquity').innerText = `$${finalEquity.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      document.getElementById('dispGrowthSub').innerText = `${growthPct >= 0 ? '+' : ''}${growthPct}% Growth`;
-    }
+        document.getElementById('dispBase').innerText = '$' + capital.toLocaleString();
+        document.getElementById('dispWinLoss').innerText = wins + 'W / ' + losses + 'L';
+        document.getElementById('dispWinRateSub').innerText = 'At ' + winRatePct + '% Win Rate';
 
-    function toggleTheme() {
-      const html = document.documentElement;
-      const current = html.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
-      document.getElementById('themeBtn').innerText = next === 'light' ? 'Mode: Dark' : 'Mode: Light';
-    }
+        const profitEl = document.getElementById('dispProfit');
+        profitEl.innerText = (netProfit >= 0 ? '+$' : '-$') + Math.abs(netProfit).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        profitEl.style.color = netProfit >= 0 ? 'var(--green)' : 'var(--red)';
 
-    function directToWhatsApp(plan) {
-      const msg = `Hello Himanshu, I want to enroll in ${plan}. Please share payment and enrollment details.`;
-      window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUM}&text=${encodeURIComponent(msg)}`;
-    }
+        document.getElementById('dispEquity').innerText = '$' + finalEquity.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        document.getElementById('dispGrowthSub').innerText = (growthPct >= 0 ? '+' : '') + growthPct + '% Growth';
+      }
 
-    function directToInstagram() {
-      window.location.href = `https://instagram.com/${INSTAGRAM_HANDLE}`;
-    }
+      function onCapitalChange() {
+        const capital = parseFloat(document.getElementById('capitalSlider').value);
+        const riskSlider = document.getElementById('riskSlider');
+        const maxRiskAllowed = Math.round(capital * 0.05);
+        riskSlider.max = maxRiskAllowed;
+        if (parseFloat(riskSlider.value) > maxRiskAllowed) {
+          riskSlider.value = maxRiskAllowed;
+        }
+        updateCalculator();
+      }
 
-    onCapitalChange();
+      document.getElementById('topChatBtn').addEventListener('click', function () { openWhatsApp('General Inquiry'); });
+      document.getElementById('topInstaBtn').addEventListener('click', openInstagram);
+      document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+      document.getElementById('ctaAccessBtn').addEventListener('click', scrollToPlanOne);
+      document.getElementById('buyPlaybookWa').addEventListener('click', function () { openWhatsApp('Proprietary Playbook (₹9,999)'); });
+      document.getElementById('buyPlaybookIg').addEventListener('click', openInstagram);
+      document.getElementById('applyMentorWa').addEventListener('click', function () { openWhatsApp('Elite 1-on-1 Mentorship (₹29,999)'); });
+      document.getElementById('applyMentorIg').addEventListener('click', openInstagram);
+
+      ['input', 'change'].forEach(function (evt) {
+        document.getElementById('capitalSlider').addEventListener(evt, onCapitalChange);
+        document.getElementById('monthsSlider').addEventListener(evt, updateCalculator);
+        document.getElementById('frequencySlider').addEventListener(evt, updateCalculator);
+        document.getElementById('winRateSlider').addEventListener(evt, updateCalculator);
+        document.getElementById('riskSlider').addEventListener(evt, updateCalculator);
+      });
+
+      onCapitalChange();
+    })();
   </script>
 </body>
 </html>
