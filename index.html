@@ -34,22 +34,26 @@
     .highlight-gold{background:linear-gradient(135deg,#fbf2c4,#d4af37);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .highlight-cyan{color:var(--cyan)}
     .hero-desc{max-width:680px;margin:0 auto 36px;font-size:15px;color:var(--text-muted);line-height:1.65}
-    .calc-card{background:var(--bg-card);border:1.5px solid var(--border);border-radius:14px;padding:24px;max-width:680px;margin:0 auto 50px}
-    .calc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border-subtle)}
-    .calc-title{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--gold-light)}
-    .calc-badge{font-family:'JetBrains Mono',monospace;font-size:10px;background:rgba(0,229,255,.1);color:var(--cyan);border:1px solid rgba(0,229,255,.3);padding:3px 8px;border-radius:4px}
-    .calc-controls{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
-    .calc-input-group label{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);margin-bottom:8px}
+    
+    /* INTERACTIVE CALCULATOR METRIC CARDS */
+    .calc-container{max-width:680px;margin:0 auto 50px}
+    .calc-slider-box{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:14px;display:flex;flex-direction:column;gap:8px}
+    .calc-slider-header{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase}
     .calc-slider{width:100%;accent-color:var(--gold);cursor:pointer}
-    .calc-results{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:rgba(0,0,0,.2);padding:14px 10px;border-radius:8px;text-align:center}
-    .calc-res-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);margin-bottom:4px}
-    .calc-res-val{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700}
+    .metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    @media(min-width:600px){.metric-grid{grid-template-columns:repeat(4,1fr)}}
+    .metric-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:10px;padding:16px 10px;text-align:center}
+    .metric-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+    .metric-val{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;margin-bottom:4px}
+    .metric-sub{font-size:10.5px;color:var(--text-muted)}
+    
     .section-head{text-align:center;margin-bottom:36px}
     .section-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:block}
     .section-title{font-family:'Cinzel',serif;font-size:32px;font-weight:700}
+    
     .pricing-wrap{display:grid;grid-template-columns:1fr;gap:24px;max-width:880px;margin:0 auto 60px}
     @media(min-width:768px){.pricing-wrap{grid-template-columns:1fr 1fr}}
-    .price-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:14px;padding:28px 24px;display:flex;flex-direction:column;justify-content:space-between;position:relative;scroll-margin-top:90px}
+    .price-card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:14px;padding:28px 24px;display:flex;flex-direction:column;justify-content:space-between;position:relative}
     .price-card.featured{border:1.5px solid var(--gold);background:linear-gradient(180deg,rgba(212,175,55,.08) 0%,var(--bg-card) 60%)}
     .card-ribbon{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#f5d77f,#d4af37);color:#000;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:800;padding:4px 14px;border-radius:50px;white-space:nowrap}
     .tier-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--gold-light);background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.3);padding:4px 10px;border-radius:5px;margin-bottom:12px;width:fit-content}
@@ -85,8 +89,8 @@
         <span>Proprietary HFT Scalp Playbook</span>
       </div>
     </div>
-    <!-- DIRECT SCROLL TO FIRST PLAN (₹9,999) -->
-    <button class="cta-nav-btn" onclick="scrollToFirstPlan()">Get Immediate Access</button>
+    <!-- BUTTON TARGETS TOP OF FIRST PLAN SPECIFICALLY -->
+    <button class="cta-nav-btn" onclick="goToPlanOne()">Get Immediate Access</button>
   </header>
 
   <main class="container">
@@ -103,34 +107,36 @@
         A rule-based, institutional Gold scalping framework engineered for disciplined risk control and high-probability orderflow momentum. Capitalize on trapped liquidity with mathematical expectancy and professional execution precision.
       </p>
 
-      <!-- INTERACTIVE CALCULATOR -->
-      <div class="calc-card">
-        <div class="calc-header">
-          <span class="calc-title">Interactive Asymmetry & EV Simulator</span>
-          <span class="calc-badge">Live Terminal Math</span>
+      <!-- LIVE SIMULATOR DIRECTLY ON THE 4 CARDS -->
+      <div class="calc-container">
+        <div class="calc-slider-box">
+          <div class="calc-slider-header">
+            <span style="color:var(--gold-light);">Interactive Execution Calculator</span>
+            <span id="sliderDisplay" style="color:var(--cyan); font-weight:700;">Risk: $22 | R:R 1:4.55</span>
+          </div>
+          <input type="range" class="calc-slider" id="riskSlider" min="10" max="100" step="1" value="22" oninput="updateCalculator()">
         </div>
-        <div class="calc-controls">
-          <div class="calc-input-group">
-            <label>Model Risk: <span id="riskLabel" style="color:var(--red); font-weight:700;">$22</span></label>
-            <input type="range" class="calc-slider" id="riskInput" min="10" max="100" step="1" value="22" oninput="runCalculator()">
+
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-label">ACCOUNT BASE</div>
+            <div class="metric-val" id="dispBase" style="color:var(--gold-light);">$500</div>
+            <div class="metric-sub">Standard Capital</div>
           </div>
-          <div class="calc-input-group">
-            <label>R:R Ratio: <span id="rrLabel" style="color:var(--gold-light); font-weight:700;">1:4.55</span></label>
-            <input type="range" class="calc-slider" id="rrInput" min="2.0" max="6.0" step="0.05" value="4.55" oninput="runCalculator()">
+          <div class="metric-card">
+            <div class="metric-label">DEFINED RISK</div>
+            <div class="metric-val" id="dispRisk" style="color:var(--red);">-$22.00</div>
+            <div class="metric-sub">Strict Model Cap</div>
           </div>
-        </div>
-        <div class="calc-results">
-          <div>
-            <div class="calc-res-label">Target Return</div>
-            <div class="calc-res-val" id="resGross" style="color:var(--cyan);">+$100.10</div>
+          <div class="metric-card">
+            <div class="metric-label">TARGET PAYOFF</div>
+            <div class="metric-val" id="dispPayoff" style="color:var(--cyan);">+$100.10</div>
+            <div class="metric-sub">1:4.55 Asymmetric</div>
           </div>
-          <div>
-            <div class="calc-res-label">Net Profit</div>
-            <div class="calc-res-val" id="resNet" style="color:var(--green);">+$100.10</div>
-          </div>
-          <div>
-            <div class="calc-res-label">10-Trade EV (40% WR)</div>
-            <div class="calc-res-val" id="resEV" style="color:var(--gold-light);">+$268.40</div>
+          <div class="metric-card">
+            <div class="metric-label">10-TRADE EV</div>
+            <div class="metric-val" id="dispEV" style="color:var(--green);">+$268.40</div>
+            <div class="metric-sub">At 40% Win Rate</div>
           </div>
         </div>
       </div>
@@ -144,7 +150,7 @@
 
       <div class="pricing-wrap">
         <!-- PLAN 1: ₹9,999 PLAYBOOK -->
-        <div class="price-card" id="plan-playbook">
+        <div class="price-card" id="tierOneCard">
           <div>
             <span class="tier-badge">Self-Paced Execution</span>
             <h4 class="tier-name">Proprietary Playbook</h4>
@@ -167,7 +173,7 @@
         </div>
 
         <!-- PLAN 2: ₹29,999 MENTORSHIP -->
-        <div class="price-card featured" id="plan-mentorship">
+        <div class="price-card featured" id="tierTwoCard">
           <div class="card-ribbon">EXCLUSIVE • 5 TRADERS / MONTH</div>
           <div>
             <span class="tier-badge">Private Intensive</span>
@@ -202,33 +208,31 @@
     const WHATSAPP_NUM = "918369881031";
     const INSTAGRAM_HANDLE = "him.tiw";
 
-    // JUMP SMOOTHLY TO FIRST PLAN
-    function scrollToFirstPlan() {
-      const plan = document.getElementById('plan-playbook');
-      if (plan) {
-        plan.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // PRECISE SCROLL TO FIRST PLAN (ACCOUNTING FOR STICKY HEADER)
+    function goToPlanOne() {
+      const card = document.getElementById('tierOneCard');
+      if (card) {
+        const topOffset = card.getBoundingClientRect().top + window.pageYOffset - 75;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
       }
     }
 
     // LIVE INTERACTIVE CALCULATOR
-    function runCalculator() {
-      const risk = parseFloat(document.getElementById('riskInput').value);
-      const rr = parseFloat(document.getElementById('rrInput').value);
-      
-      document.getElementById('riskLabel').innerText = '$' + risk.toFixed(0);
-      document.getElementById('rrLabel').innerText = '1:' + rr.toFixed(2);
+    function updateCalculator() {
+      const risk = parseFloat(document.getElementById('riskSlider').value);
+      const rr = 4.55;
+      const payoff = risk * rr;
+      const base = Math.round(risk / 0.044); // ~4.4% risk allocation base
+      const ev10 = (4 * payoff) - (6 * risk);
 
-      const profit = risk * rr;
-      document.getElementById('resGross').innerText = '+$' + profit.toFixed(2);
-      document.getElementById('resNet').innerText = '+$' + profit.toFixed(2);
-
-      const ev10 = (4 * profit) - (6 * risk);
-      const evElement = document.getElementById('resEV');
-      evElement.innerText = (ev10 >= 0 ? '+' : '') + '$' + ev10.toFixed(2);
-      evElement.style.color = ev10 >= 0 ? 'var(--gold-light)' : 'var(--red)';
+      document.getElementById('sliderDisplay').innerText = `Risk: $${risk.toFixed(0)} | R:R 1:${rr.toFixed(2)}`;
+      document.getElementById('dispBase').innerText = `$${base}`;
+      document.getElementById('dispRisk').innerText = `-$${risk.toFixed(2)}`;
+      document.getElementById('dispPayoff').innerText = `+$${payoff.toFixed(2)}`;
+      document.getElementById('dispEV').innerText = `+$${ev10.toFixed(2)}`;
     }
 
-    // DARK / LIGHT THEME TOGGLE
+    // THEME SWITCH
     function toggleTheme() {
       const html = document.documentElement;
       const current = html.getAttribute('data-theme');
@@ -237,18 +241,17 @@
       document.getElementById('themeBtn').innerText = next === 'light' ? 'Mode: Dark' : 'Mode: Light';
     }
 
-    // REDIRECTION LINKS
-    function directToWhatsApp(planName) {
-      const text = `Hello Himanshu, I want to enroll in ${planName}. Please share payment and enrollment details.`;
-      window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUM}&text=${encodeURIComponent(text)}`;
+    // DIRECT REDIRECTIONS
+    function directToWhatsApp(plan) {
+      const msg = `Hello Himanshu, I want to enroll in ${plan}. Please share payment and enrollment details.`;
+      window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUM}&text=${encodeURIComponent(msg)}`;
     }
 
     function directToInstagram() {
       window.location.href = `https://instagram.com/${INSTAGRAM_HANDLE}`;
     }
 
-    // Initialize calculation on load
-    runCalculator();
+    updateCalculator();
   </script>
 </body>
 </html>
