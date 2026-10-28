@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIMANSHU QUANTITATIVE LABS | HIMANSHU HFT SETUP (XAU/USD M1)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#07090E',
+                        deepNavy: '#0A0E17',
+                        slateCard: '#101524',
+                        slateBorder: '#1E2638',
+                        luxuryGold: '#D4AF37',
+                        brightGold: '#F3E5AB',
+                        darkGold: '#8C701B',
+                        cyanNeon: '#00F0FF',
+                        emeraldNeon: '#00C896',
+                        roseRisk: '#FF3366'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        serif: ['Cinzel', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #07090E;
+            color: #E2E8F0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF1B0 0%, #D4AF37 50%, #AA8010 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .cyan-gradient-text {
+            background: linear-gradient(135deg, #A5F3FC 0%, #00F0FF 60%, #0284C7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .grid-glow {
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.08) 0%, transparent 45%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+        .luxury-card-glow {
+            box-shadow: 0 0 35px -5px rgba(212, 175, 55, 0.22);
+        }
+        .cyan-card-glow {
+            box-shadow: 0 0 35px -5px rgba(0, 240, 255, 0.18);
+        }
+    </style>
+</head>
+<body class="grid-glow min-h-screen selection:bg-luxuryGold selection:text-black">
+
+    <!-- Top Status Banner -->
+    <div class="w-full bg-slate-950/90 border-b border-luxuryGold/20 backdrop-blur-md px-4 py-2.5 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between text-xs md:text-sm">
+            <div class="flex items-center space-x-2.5">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emeraldNeon opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emeraldNeon"></span>
+                </span>
+                <span class="font-mono text-emeraldNeon font-semibold tracking-wider text-[11px] sm:text-xs uppercase">Orderflow Verified</span>
+                <span class="text-slate-600 hidden sm:inline">|</span>
+                <span class="text-slate-400 hidden sm:inline text-xs font-mono">XAU/USD Gold M1 Asymmetric Scalp Engine</span>
+            </div>
+            
+            <div class="flex items-center space-x-3 text-xs">
+                <button type="button" onclick="openWhatsApp('general')" class="flex items-center space-x-1.5 text-emerald-400 hover:text-emerald-300 font-mono transition cursor-pointer bg-transparent border-0 p-0">
+                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                    <span>Instant Chat</span>
+                </button>
+                <span class="text-slate-600">|</span>
+                <button type="button" onclick="openInstagram()" class="flex items-center space-x-1.5 text-luxuryGold hover:text-brightGold font-mono transition cursor-pointer bg-transparent border-0 p-0">
+                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    <span>Instagram DM</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
+        <div class="flex items-center space-x-3.5">
+            <div class="h-11 w-11 rounded-xl bg-gradient-to-br from-brightGold via-luxuryGold to-darkGold flex items-center justify-center shadow-lg shadow-luxuryGold/20 p-0.5">
+                <div class="w-full h-full bg-deepNavy rounded-[10px] flex items-center justify-center">
+                    <span class="font-serif font-black text-brightGold text-lg tracking-tighter">HQ</span>
+                </div>
+            </div>
+            <div>
+                <span class="font-black tracking-wider text-base sm:text-lg block text-white font-serif">HIMANSHU <span class="gold-gradient-text">QUANTITATIVE</span></span>
+                <span class="text-[10px] font-mono tracking-widest text-slate-400 block -mt-0.5 uppercase">Proprietary HFT Scalp Playbook</span>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-5">
+            <a href="#blueprint" class="hidden md:inline text-xs font-mono text-slate-300 hover:text-cyanNeon uppercase tracking-wider transition">Blueprint</a>
+            <a href="#simulator" class="hidden md:inline text-xs font-mono text-slate-300 hover:text-luxuryGold uppercase tracking-wider transition">1:4.45 Calculator</a>
+            <a href="#pricing" class="bg-gradient-to-r from-luxuryGold via-brightGold to-luxuryGold hover:brightness-110 text-slate-950 font-bold px-5 py-2.5 rounded-lg text-xs tracking-wider uppercase shadow-lg shadow-luxuryGold/20 active:scale-95 transition">
+                Enrollment Open
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-12 pb-20 sm:pt-20 sm:pb-28">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+            
+            <div class="inline-flex items-center space-x-2.5 bg-slateCard/90 border border-luxuryGold/30 px-4 py-1.5 rounded-full mb-8 backdrop-blur-md">
+                <span class="text-luxuryGold text-xs font-mono font-semibold uppercase tracking-wider">⚡ Proprietary M1 XAU/USD Execution Engine</span>
+                <span class="text-slate-600">•</span>
+                <span class="text-cyanNeon text-xs font-mono">1:4.45 R:R Asymmetry</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-tight sm:leading-none mb-6">
+                Turn $22 Hard Risk Into <br class="hidden sm:block">
+                <span class="gold-gradient-text font-serif">+$100 Profit</span> In 2–3 Candles.
+            </h1>
+
+            <p class="text-slate-300 text-base sm:text-lg md:text-xl max-w-3xl mx-auto font-normal leading-relaxed mb-10">
+                A rule-based, institutional Gold scalping framework. Ultra-tight stop loss placed strictly on the <strong class="text-white font-mono">entry candle wick</strong>, capturing trapped retail liquidity with mathematical expectancy.
+            </p>
+
+            <!-- Main CTAs -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                <a href="#pricing" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 bg-gradient-to-r from-luxuryGold via-brightGold to-luxuryGold text-slate-950 font-black px-8 py-4 rounded-xl text-sm tracking-wide uppercase shadow-xl shadow-luxuryGold/25 hover:brightness-110 transition active:scale-98">
+                    <span>View Private Playbook & Mentorship</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+                
+                <button type="button" onclick="openWhatsApp('general')" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-slate-900/90 hover:bg-slate-800 text-emerald-400 border border-emerald-500/30 font-semibold px-8 py-4 rounded-xl text-sm transition cursor-pointer">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                    <span>Direct WhatsApp Inquiry</span>
+                </button>
+            </div>
+
+            <!-- Quantitative Stats Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
+                <div class="bg-slateCard/90 border border-slateBorder p-5 rounded-2xl backdrop-blur-md">
+                    <p class="text-slate-400 text-[11px] font-mono uppercase tracking-wider">Account Baseline</p>
+                    <p class="text-2xl font-black font-mono text-white mt-1">$500 <span class="text-xs text-slate-400 font-normal">USD</span></p>
+                    <p class="text-[11px] text-cyanNeon font-mono mt-1">Standardized Capital</p>
+                </div>
+                <div class="bg-slateCard/90 border border-slateBorder p-5 rounded-2xl backdrop-blur-md">
+                    <p class="text-slate-400 text-[11px] font-mono uppercase tracking-wider">Fixed Hard Risk</p>
+                    <p class="text-2xl font-black font-mono text-roseRisk mt-1">-$22.00</p>
+                    <p class="text-[11px] text-slate-400 font-mono mt-1">0.50 Lot • Entry Wick SL</p>
+                </div>
+                <div class="bg-slateCard/90 border border-slateBorder p-5 rounded-2xl backdrop-blur-md">
+                    <p class="text-slate-400 text-[11px] font-mono uppercase tracking-wider">Target Payoff</p>
+                    <p class="text-2xl font-black font-mono text-emeraldNeon mt-1">+$100.00</p>
+                    <p class="text-[11px] text-brightGold font-mono mt-1">1:4.45 - 1:4.55 R:R</p>
+                </div>
+                <div class="bg-slateCard/90 border border-slateBorder p-5 rounded-2xl backdrop-blur-md">
+                    <p class="text-slate-400 text-[11px] font-mono uppercase tracking-wider">Execution Speed</p>
+                    <p class="text-2xl font-black font-mono text-cyanNeon mt-1">2–3 Mins</p>
+                    <p class="text-[11px] text-slate-400 font-mono mt-1">Hard 3-Candle Time Stop</p>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Strategy Blueprint / Execution Rules -->
+    <section id="blueprint" class="py-20 border-t border-slateBorder/60 bg-deepNavy/50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-cyanNeon font-mono text-xs font-bold tracking-widest uppercase">Precision Execution Architecture</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 font-serif">The HIMANSHU HFT Setup Rules</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-3">We eliminate 99% of retail noise. No moving averages, no lagging indicators. Just pure impulse breakout mechanics and rapid wick invalidations.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Point 1 -->
+                <div class="bg-slateCard border border-slateBorder hover:border-cyanNeon/40 p-6 rounded-2xl transition duration-300 relative group">
+                    <div class="text-4xl font-black text-slate-800 font-mono absolute top-4 right-5 select-none">01</div>
+                    <div class="h-10 w-10 rounded-xl bg-cyan-950/60 border border-cyanNeon/40 flex items-center justify-center text-cyanNeon font-bold mb-5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Impulse Entry Execution</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        One-click Market Buy or Market Sell right on the breakout green/red momentum candle. Standardized 0.50 Lot sizing for seamless $500 balance scaling.
+                    </p>
+                </div>
+
+                <!-- Point 2 -->
+                <div class="bg-slateCard border border-slateBorder hover:border-roseRisk/40 p-6 rounded-2xl transition duration-300 relative group">
+                    <div class="text-4xl font-black text-slate-800 font-mono absolute top-4 right-5 select-none">02</div>
+                    <div class="h-10 w-10 rounded-xl bg-red-950/60 border border-roseRisk/40 flex items-center justify-center text-roseRisk font-bold mb-5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Strict Entry Candle Wick Stop</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Stop Loss is anchored strictly on the lowest (or highest) wick of the <strong>entry candle itself</strong> (~$0.40–$0.45 Gold range). Maximum loss is capped at exactly $22.
+                    </p>
+                </div>
+
+                <!-- Point 3 -->
+                <div class="bg-slateCard border border-slateBorder hover:border-emeraldNeon/40 p-6 rounded-2xl transition duration-300 relative group">
+                    <div class="text-4xl font-black text-slate-800 font-mono absolute top-4 right-5 select-none">03</div>
+                    <div class="h-10 w-10 rounded-xl bg-emerald-950/60 border border-emeraldNeon/40 flex items-center justify-center text-emeraldNeon font-bold mb-5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">+$100 Flush & Terminal Lockout</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Liquidity traps force an instant expansion hitting our +$100 target in 120–180 seconds. Max 3 trades per day. If 3 stop-losses hit (-$66), terminal is locked down instantly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Math & Expectancy Simulator -->
+    <section id="simulator" class="py-20 border-t border-slateBorder bg-obsidian">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12">
+                <span class="text-luxuryGold font-mono text-xs font-bold tracking-widest uppercase">The Asymmetric Math Engine</span>
+                <h2 class="text-3xl font-extrabold text-white mt-1 font-serif">Simulate Your Monthly Expectancy</h2>
+                <p class="text-slate-400 text-sm mt-2">See why a 1:4.45 Risk-Reward ratio makes you heavily profitable even with a modest 33% win rate.</p>
+            </div>
+
+            <div class="bg-slateCard border border-luxuryGold/30 rounded-3xl p-6 sm:p-8 shadow-2xl relative">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <!-- Slider 1 -->
+                        <div class="mb-6">
+                            <label class="block text-xs font-mono text-slate-400 uppercase tracking-wider mb-2">Monthly Executions (Trades)</label>
+                            <input type="range" id="simTrades" min="15" max="66" value="44" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyanNeon" oninput="calculateExpectancy()">
+                            <div class="flex justify-between text-xs font-mono text-slate-400 mt-1">
+                                <span>15 Trades</span>
+                                <span id="simTradesLabel" class="text-cyanNeon font-bold">44 Trades</span>
+                                <span>66 Trades (3/day)</span>
+                            </div>
+                        </div>
+
+                        <!-- Slider 2 -->
+                        <div class="mb-6">
+                            <label class="block text-xs font-mono text-slate-400 uppercase tracking-wider mb-2">Simulated Win Rate (%)</label>
+                            <input type="range" id="simWinRate" min="20" max="65" value="40" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-luxuryGold" oninput="calculateExpectancy()">
+                            <div class="flex justify-between text-xs font-mono text-slate-400 mt-1">
+                                <span>20%</span>
+                                <span id="simWinRateLabel" class="text-luxuryGold font-bold">40% Win Rate</span>
+                                <span>65%</span>
+                            </div>
+                        </div>
+
+                        <!-- Calculation breakdown -->
+                        <div class="p-4 rounded-xl bg-deepNavy border border-slateBorder text-xs space-y-2 font-mono text-slate-300">
+                            <div class="flex justify-between">
+                                <span>Fixed Target (+4.55R):</span>
+                                <span class="text-emeraldNeon font-bold">+$100.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Fixed Loss (-1.00R):</span>
+                                <span class="text-roseRisk font-bold">-$22.00</span>
+                            </div>
+                            <div class="flex justify-between border-t border-slate-800 pt-2 font-bold">
+                                <span>EV per Trade:</span>
+                                <span id="simEvPerTrade" class="text-brightGold">+$26.80</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projected Returns Display -->
+                    <div class="text-center p-6 bg-deepNavy/90 rounded-2xl border border-luxuryGold/30">
+                        <span class="text-xs font-mono text-slate-400 uppercase tracking-wider block">Projected Monthly Net Profit</span>
+                        <div id="simMonthlyProfitUSD" class="text-4xl sm:text-5xl font-black font-mono text-emeraldNeon mt-2">+$1,179</div>
+                        <div id="simMonthlyProfitINR" class="text-sm font-mono text-luxuryGold mt-1">≈ ₹98,000 INR on $500 Account</div>
+
+                        <div class="mt-6 pt-6 border-t border-slateBorder text-left space-y-2 text-xs text-slate-400 font-mono">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-emeraldNeon font-bold">✓</span>
+                                <span>Breakeven is just ~18% win rate.</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-emeraldNeon font-bold">✓</span>
+                                <span>Zero emotional holding or trailing stops.</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-emeraldNeon font-bold">✓</span>
+                                <span>Daily drawdown strictly capped at $66.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section: The Two Luxury Tiers -->
+    <section id="pricing" class="py-24 border-t border-slateBorder bg-gradient-to-b from-deepNavy to-obsidian relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-luxuryGold font-mono text-xs font-bold tracking-widest uppercase">Asymmetric Investment</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white mt-2 font-serif">Enrollment & Private Access</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-3">
+                    Every tier is mathematically calculated to be recovered within 1 to 4 winning scalps. Choose your level of access below.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto items-stretch">
+                
+                <!-- TIER 1: Private Playbook (PDF Course) -->
+                <div class="bg-slateCard border border-slateBorder hover:border-cyanNeon/50 rounded-3xl p-8 flex flex-col justify-between transition duration-300 relative cyan-card-glow">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <span class="bg-cyan-950 text-cyanNeon text-[11px] font-mono font-bold px-3 py-1 rounded-full border border-cyan-800/80 uppercase">SELF-STUDY ACCESS</span>
+                                <h3 class="text-2xl font-black text-white mt-3 font-serif">Private Scalp Playbook</h3>
+                                <p class="text-slate-400 text-xs mt-1">Confidential 10-slide mastercourse PDF & blueprints</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-6 pb-6 border-b border-slateBorder">
+                            <div class="flex items-baseline space-x-2">
+                                <span class="text-4xl sm:text-5xl font-black font-mono text-white">₹9,999</span>
+                                <span class="text-slate-400 text-xs font-mono">INR (~$119 USD)</span>
+                            </div>
+                            <p class="text-emeraldNeon text-xs font-mono mt-2">⚡ 1 single winning trade (~$100 / ₹8,350) covers this fee.</p>
+                        </div>
+
+                        <ul class="space-y-3.5 text-sm text-slate-300 mb-8">
+                            <li class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-cyanNeon flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>Complete 10-Slide Mastercourse PDF:</strong> Ultra-crisp annotated chart blueprints for Buy & Sell sides.</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-cyanNeon flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>Dual-Language Trade Psychology:</strong> Deep-dive explanations in both English & Hinglish.</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-cyanNeon flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>Strict Entry Wick Invalidation:</strong> Exact rules for zero-ambiguity stop placement.</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-cyanNeon flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>Pre-Trade Execution Checklist:</strong> 4-point robotic checklist before pressing Market Buy/Sell.</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-cyanNeon flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>Instant Digital Delivery:</strong> Access the confidential materials directly on WhatsApp/Email.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Direct Contact Buttons -->
+                    <div class="space-y-3 pt-2">
+                        <button type="button" onclick="openWhatsApp('pdf')" class="w-full flex items-center justify-center space-x-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-4 px-6 rounded-xl shadow-lg shadow-emerald-500/20 transition active:scale-98 text-sm cursor-pointer">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                            <span>Buy PDF on WhatsApp</span>
+                        </button>
+                        <button type="button" onclick="openInstagram()" class="w-full flex items-center justify-center space-x-2 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slateBorder font-semibold py-3 px-6 rounded-xl text-xs transition cursor-pointer">
+                            <svg class="w-4 h-4 fill-current text-pink-500" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Buy on Instagram DM (@him.tiw)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TIER 2: Elite 1-on-1 Mentorship (Luxury) -->
+                <div class="bg-gradient-to-b from-deepNavy via-slateCard to-slate-950 border-2 border-luxuryGold rounded-3xl p-8 flex flex-col justify-between relative luxury-card-glow">
+                    <div class="absolute -top-3.5 right-8">
+                        <span class="bg-gradient-to-r from-luxuryGold via-brightGold to-darkGold text-slate-950 text-[11px] font-black tracking-wider uppercase px-4 py-1 rounded-full shadow-md">
+                            EXCLUSIVE • 5 TRADERS / MONTH
+                        </span>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <span class="bg-amber-950/80 text-brightGold text-[11px] font-mono font-bold px-3 py-1 rounded-full border border-amber-600/60 uppercase">1-ON-1 MENTORSHIP</span>
+                                <h3 class="text-2xl font-black text-white mt-3 font-serif">Elite 1-on-1 Mentorship</h3>
+                                <p class="text-slate-400 text-xs mt-1">Live screen-share coaching and personal terminal audits</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-6 pb-6 border-b border-slateBorder">
+                            <div class="flex items-baseline space-x-2">
+                                <span class="text-4xl sm:text-5xl font-black font-mono gold-gradient-text">₹29,999</span>
+                                <span class="text-slate-400 text-xs font-mono">INR (~$359 USD)</span>
+                            </div>
+                            <p class="text-emeraldNeon text-xs font-mono mt-2">⚡ 3–4 winning trades recovers 100% of this investment.</p>
+                        </div>
+
+                        <ul class="space-y-3.5 text-sm text-slate-200 mb-8">
+                            <li class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-luxuryGold flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>Everything in Tier 1:</strong> Full 10-slide confidential PDF playbook included.</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-luxuryGold flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>Direct 1-on-1 Live Video Calls:</strong> Private video sessions with Himanshu reviewing real charts.</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-luxuryGold flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>MT5 Terminal Setup:</strong> Live screen-share to configure hotkeys, one-click 0.50 lot size, and wick invalidation.</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-luxuryGold flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>Candle-by-Candle Audits:</strong> Send your daily trade screenshots directly to my personal WhatsApp for critique.</span>
+                            </li>
+                            <li class="flex items-start space-x-3">
+                                <svg class="w-5 h-5 text-luxuryGold flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                                <span><strong>3-Trade Lockout Protocol:</strong> Master emotional discipline and ensure you never blow an account again.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Direct Contact Buttons -->
+                    <div class="space-y-3 pt-2">
+                        <button type="button" onclick="openWhatsApp('mentorship')" class="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-luxuryGold via-brightGold to-luxuryGold hover:brightness-110 text-slate-950 font-black py-4 px-6 rounded-xl shadow-xl shadow-luxuryGold/20 transition active:scale-98 text-sm cursor-pointer">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                            <span>Apply for Mentorship (WhatsApp)</span>
+                        </button>
+                        <button type="button" onclick="openInstagram()" class="w-full flex items-center justify-center space-x-2 bg-slate-900 hover:bg-slate-800 text-brightGold border border-luxuryGold/40 font-semibold py-3 px-6 rounded-xl text-xs transition cursor-pointer">
+                            <svg class="w-4 h-4 fill-current text-pink-500" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            <span>Apply on Instagram DM (@him.tiw)</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 border-t border-slateBorder bg-deepNavy/40">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <h2 class="text-3xl font-extrabold text-white text-center mb-12 font-serif">Frequently Asked Questions</h2>
+            
+            <div class="space-y-4">
+                <div class="bg-slateCard border border-slateBorder p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-white mb-2">Why 1:4.45 Risk-Reward ratio?</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Most scalpers trade 1:1 or 1:2 R:R where a small losing streak destroys weeks of gains. With 1:4.45 asymmetry, 1 win erases more than 4 losses immediately. Even if you lose 60% of your trades, you remain heavily net positive.
+                    </p>
+                </div>
+
+                <div class="bg-slateCard border border-slateBorder p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-white mb-2">What account size do I need?</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        The setup is calibrated for a standard $500 USD account using 0.50 lots and a $22 risk per trade. However, you can scale this up or down proportionally (e.g., $250 balance with 0.25 lots, or $1,000 balance with 1.00 lot).
+                    </p>
+                </div>
+
+                <div class="bg-slateCard border border-slateBorder p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-white mb-2">How does the 1-on-1 Mentorship work?</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        We connect directly via private video calls. We set up your MetaTrader terminal together, walk through live gold volatility, practice instant wick invalidation, and set up a private audit channel where you send your trades for feedback.
+                    </p>
+                </div>
+
+                <div class="bg-slateCard border border-slateBorder p-6 rounded-2xl">
+                    <h3 class="text-base font-bold text-white mb-2">How do I receive the PDF Playbook after paying?</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Once you message me on WhatsApp (+91 8369881031) or Instagram (@him.tiw) and complete payment via UPI / Bank Transfer / Crypto, the high-resolution confidential 10-slide mastercourse PDF is delivered to you instantly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-slateBorder bg-obsidian text-center text-xs text-slate-400 px-4">
+        <div class="max-w-4xl mx-auto space-y-4">
+            <div class="flex justify-center space-x-6 text-sm font-mono mb-4">
+                <button type="button" onclick="openWhatsApp('general')" class="text-emeraldNeon hover:underline cursor-pointer bg-transparent border-0">WhatsApp: +91 8369881031</button>
+                <span class="text-slate-600">|</span>
+                <button type="button" onclick="openInstagram()" class="text-luxuryGold hover:underline cursor-pointer bg-transparent border-0">Instagram: @him.tiw</button>
+            </div>
+            <p><strong>Quantitative Disclaimer:</strong> Trading spot gold (XAU/USD) involves significant market risk. The Himanshu HFT Setup provides quantitative rules and mathematical models for educational purposes. Past expectancy does not guarantee future results.</p>
+            <p class="font-mono text-slate-400">© 2026 HIMANSHU QUANTITATIVE LABS. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Script & Robust Redirection Handlers -->
+    <script>
+        function navigateDirectly(targetUrl) {
+            try {
+                // Try breaking out of iframes/sandboxes first
+                if (window.top && window.top !== window) {
+                    window.top.location.href = targetUrl;
+                    return;
+                }
+            } catch (e) {
+                // Ignore cross-origin frame access errors
+            }
+            // Standard direct redirect
+            try {
+                window.location.href = targetUrl;
+            } catch (e) {
+                window.open(targetUrl, '_blank');
+            }
+        }
+
+        function openWhatsApp(type) {
+            let message = "Hi Himanshu, I am interested in the HIMANSHU HFT SETUP.";
+            if (type === 'pdf') {
+                message = "Hello Himanshu, I want to buy the HIMANSHU HFT SETUP PDF Playbook (₹9,999). Please share payment details.";
+            } else if (type === 'mentorship') {
+                message = "Hello Himanshu, I want to apply for the Elite 1-on-1 Mentorship & Live Scalping (₹29,999). Please share enrollment details.";
+            }
+            const encoded = encodeURIComponent(message);
+            const waUrl = "https://api.whatsapp.com/send?phone=918369881031&text=" + encoded;
+            navigateDirectly(waUrl);
+        }
+
+        function openInstagram() {
+            navigateDirectly("https://instagram.com/him.tiw");
+        }
+
+        function calculateExpectancy() {
+            const trades = parseInt(document.getElementById('simTrades').value);
+            const winRate = parseInt(document.getElementById('simWinRate').value);
+
+            document.getElementById('simTradesLabel').innerText = trades + ' Trades';
+            document.getElementById('simWinRateLabel').innerText = winRate + '% Win Rate';
+
+            const pWin = winRate / 100;
+            const pLoss = 1 - pWin;
+
+            const winPayout = 100.0;
+            const lossCost = 22.0;
+
+            const ev = (pWin * winPayout) - (pLoss * lossCost);
+            const netProfitUSD = Math.round(trades * ev);
+            const netProfitINR = Math.round(netProfitUSD * 84); // 84 INR per USD conversion
+
+            document.getElementById('simEvPerTrade').innerText = (ev >= 0 ? '+$' : '-$') + Math.abs(ev).toFixed(2);
+            document.getElementById('simMonthlyProfitUSD').innerText = (netProfitUSD >= 0 ? '+$' : '-$') + Math.abs(netProfitUSD).toLocaleString();
+            document.getElementById('simMonthlyProfitINR').innerText = '≈ ₹' + Math.abs(netProfitINR).toLocaleString() + ' INR on $500 Account';
+
+            const profitEl = document.getElementById('simMonthlyProfitUSD');
+            if (netProfitUSD >= 0) {
+                profitEl.className = "text-4xl sm:text-5xl font-black font-mono text-emeraldNeon mt-2";
+            } else {
+                profitEl.className = "text-4xl sm:text-5xl font-black font-mono text-roseRisk mt-2";
+            }
+        }
+
+        window.onload = function() {
+            calculateExpectancy();
+        };
+    </script>
+</body>
+</html>
