@@ -107,7 +107,7 @@
         A rule-based, institutional Gold scalping framework engineered for disciplined risk control and high-probability orderflow momentum. Capitalize on trapped liquidity with mathematical expectancy and professional execution precision.
       </p>
 
-      <!-- DYNAMIC EXECUTION CALCULATOR -->
+      <!-- DYNAMIC EXECUTION CALCULATOR WITH 5% RISK ENFORCEMENT -->
       <div class="calc-container">
         <div class="calc-slider-box">
           <div style="font-family:'Cinzel',serif; font-size:14px; font-weight:700; color:var(--gold-light); margin-bottom:4px; text-align:left;">
@@ -120,7 +120,7 @@
               <span style="color:var(--text-muted);">Starting Capital Base:</span>
               <span id="capitalDisplay" style="color:var(--gold-light); font-weight:700;">$500</span>
             </div>
-            <input type="range" class="calc-slider" id="capitalSlider" min="200" max="5000" step="50" value="500" oninput="updateCalculator()">
+            <input type="range" class="calc-slider" id="capitalSlider" min="200" max="5000" step="50" value="500" oninput="onCapitalChange()">
           </div>
 
           <!-- SLIDER 2: TRADES PER DAY (1, 2, or 3 Trades/Day) -->
@@ -141,13 +141,13 @@
             <input type="range" class="calc-slider" id="winRateSlider" min="25" max="70" step="1" value="25" oninput="updateCalculator()">
           </div>
 
-          <!-- SLIDER 4: HARD RISK PER TRADE ($10 to $100) -->
+          <!-- SLIDER 4: DYNAMICALLY CAPPED AT MAX 5% OF CAPITAL -->
           <div class="slider-row">
             <div class="calc-slider-header">
-              <span style="color:var(--text-muted);">Hard Risk Per Trade:</span>
-              <span id="riskDisplay" style="color:var(--red); font-weight:700;">$22 per Trade</span>
+              <span style="color:var(--text-muted);">Hard Risk Per Trade (Max 5% Cap):</span>
+              <span id="riskDisplay" style="color:var(--red); font-weight:700;">$22 (4.4% Risk)</span>
             </div>
-            <input type="range" class="calc-slider" id="riskSlider" min="10" max="100" step="1" value="22" oninput="updateCalculator()">
+            <input type="range" class="calc-slider" id="riskSlider" min="2" max="25" step="1" value="22" oninput="updateCalculator()">
           </div>
         </div>
 
@@ -251,13 +251,31 @@
       }
     }
 
+    // DYNAMICALLY RE-CAP THE RISK SLIDER WHEN CAPITAL CHANGES
+    function onCapitalChange() {
+      const capital = parseFloat(document.getElementById('capitalSlider').value);
+      const riskSlider = document.getElementById('riskSlider');
+      
+      // Strict 5% risk cap limit
+      const maxRiskAllowed = Math.round(capital * 0.05);
+      riskSlider.max = maxRiskAllowed;
+      
+      // If current risk exceeds the new 5% limit, snap it to the cap
+      if (parseFloat(riskSlider.value) > maxRiskAllowed) {
+        riskSlider.value = maxRiskAllowed;
+      }
+      
+      updateCalculator();
+    }
+
     // MULTI-SLIDER 22-DAY CYCLE CALCULATOR
     function updateCalculator() {
       const capital = parseFloat(document.getElementById('capitalSlider').value);
       const tradesPerDay = parseInt(document.getElementById('frequencySlider').value);
-      const totalTrades = tradesPerDay * 22; // 22 trading days: 22, 44, or 66 trades
+      const totalTrades = tradesPerDay * 22; // 22 trading days
       const winRatePct = parseInt(document.getElementById('winRateSlider').value);
       const risk = parseFloat(document.getElementById('riskSlider').value);
+      const riskPct = ((risk / capital) * 100).toFixed(1);
       const rr = 4.55;
       const payoffPerWin = risk * rr;
 
@@ -274,7 +292,7 @@
       document.getElementById('capitalDisplay').innerText = `$${capital.toLocaleString()}`;
       document.getElementById('frequencyDisplay').innerText = `${tradesPerDay} ${tradesPerDay === 1 ? 'Trade' : 'Trades'} / Day (${totalTrades} Total)`;
       document.getElementById('winRateDisplay').innerText = `${winRatePct}% Win Rate`;
-      document.getElementById('riskDisplay').innerText = `$${risk.toFixed(0)} per Trade`;
+      document.getElementById('riskDisplay').innerText = `$${risk.toFixed(0)} (${riskPct}% Risk)`;
 
       // UPDATE STAT CARDS
       document.getElementById('dispBase').innerText = `$${capital.toLocaleString()}`;
@@ -308,8 +326,8 @@
       window.location.href = `https://instagram.com/${INSTAGRAM_HANDLE}`;
     }
 
-    // Initialize calculator on page load
-    updateCalculator();
+    // Initialize bounds on page load
+    onCapitalChange();
   </script>
 </body>
 </html>
