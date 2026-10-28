@@ -19,6 +19,7 @@
     .ticker-links{display:flex;align-items:center;gap:12px}
     .social-btn{background:transparent;border:none;color:var(--text-muted);cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:11px}
     .social-btn:hover{color:var(--gold)}
+    .social-btn svg{width:13px;height:13px;fill:currentColor}
     .theme-toggle-btn{background:rgba(128,128,128,.12);border:1px solid var(--border-subtle);color:var(--text-main);border-radius:20px;padding:4px 10px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600}
     .navbar{max-width:1100px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
     .brand-group{display:flex;align-items:center;gap:14px}
@@ -36,7 +37,7 @@
     
     /* MULTI-SLIDER CALCULATOR */
     .calc-container{max-width:700px;margin:0 auto 50px}
-    .calc-slider-box{background:var(--bg-card);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:16px;display:flex;flex-direction:column;gap:16px;box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+    .calc-slider-box{background:var(--bg-card);border:1.5px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;display:flex;flex-direction:column;gap:16px;box-shadow:0 8px 24px rgba(0,0,0,0.2)}
     .slider-row{display:flex;flex-direction:column;gap:6px}
     .calc-slider-header{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase}
     .calc-slider{width:100%;accent-color:var(--gold);cursor:pointer}
@@ -110,19 +111,28 @@
       <div class="calc-container">
         <div class="calc-slider-box">
           <div style="font-family:'Cinzel',serif; font-size:14px; font-weight:700; color:var(--gold-light); margin-bottom:4px; text-align:left;">
-            22-DAY TRADING CYCLE EXPECTANCY SIMULATOR
+            22-DAY CYCLE EXPECTANCY SIMULATOR
           </div>
 
-          <!-- SLIDER 1: TRADE VOLUME (10 to 66 TRADES) -->
+          <!-- SLIDER 1: STARTING CAPITAL ($200 to $5000) -->
           <div class="slider-row">
             <div class="calc-slider-header">
-              <span style="color:var(--text-muted);">Cycle Trade Count (22 Days):</span>
-              <span id="tradesDisplay" style="color:var(--cyan); font-weight:700;">22 Trades (1/Day)</span>
+              <span style="color:var(--text-muted);">Starting Capital Base:</span>
+              <span id="capitalDisplay" style="color:var(--gold-light); font-weight:700;">$500</span>
             </div>
-            <input type="range" class="calc-slider" id="tradesSlider" min="10" max="66" step="1" value="22" oninput="updateCalculator()">
+            <input type="range" class="calc-slider" id="capitalSlider" min="200" max="5000" step="50" value="500" oninput="updateCalculator()">
           </div>
 
-          <!-- SLIDER 2: WIN RATE (MINIMUM 25% UP TO 70%) -->
+          <!-- SLIDER 2: TRADES PER DAY (1, 2, or 3 Trades/Day) -->
+          <div class="slider-row">
+            <div class="calc-slider-header">
+              <span style="color:var(--text-muted);">Execution Frequency (22 Days):</span>
+              <span id="frequencyDisplay" style="color:var(--cyan); font-weight:700;">1 Trade / Day (22 Total)</span>
+            </div>
+            <input type="range" class="calc-slider" id="frequencySlider" min="1" max="3" step="1" value="1" oninput="updateCalculator()">
+          </div>
+
+          <!-- SLIDER 3: ASSUMED WIN RATE (MINIMUM 25% UP TO 70%) -->
           <div class="slider-row">
             <div class="calc-slider-header">
               <span style="color:var(--text-muted);">Assumed Win Rate (Min 25%):</span>
@@ -131,10 +141,10 @@
             <input type="range" class="calc-slider" id="winRateSlider" min="25" max="70" step="1" value="25" oninput="updateCalculator()">
           </div>
 
-          <!-- SLIDER 3: HARD RISK ($10 to $100) -->
+          <!-- SLIDER 4: HARD RISK PER TRADE ($10 to $100) -->
           <div class="slider-row">
             <div class="calc-slider-header">
-              <span style="color:var(--text-muted);">Model Hard Risk:</span>
+              <span style="color:var(--text-muted);">Hard Risk Per Trade:</span>
               <span id="riskDisplay" style="color:var(--red); font-weight:700;">$22 per Trade</span>
             </div>
             <input type="range" class="calc-slider" id="riskSlider" min="10" max="100" step="1" value="22" oninput="updateCalculator()">
@@ -143,9 +153,9 @@
 
         <div class="metric-grid">
           <div class="metric-card">
-            <div class="metric-label">ACCOUNT BASE</div>
+            <div class="metric-label">STARTING CAPITAL</div>
             <div class="metric-val" id="dispBase" style="color:var(--gold-light);">$500</div>
-            <div class="metric-sub">Capital Intact</div>
+            <div class="metric-sub">Capital Preserved</div>
           </div>
           <div class="metric-card">
             <div class="metric-label">CYCLE WINS / LOSSES</div>
@@ -243,12 +253,13 @@
 
     // MULTI-SLIDER 22-DAY CYCLE CALCULATOR
     function updateCalculator() {
-      const totalTrades = parseInt(document.getElementById('tradesSlider').value);
+      const capital = parseFloat(document.getElementById('capitalSlider').value);
+      const tradesPerDay = parseInt(document.getElementById('frequencySlider').value);
+      const totalTrades = tradesPerDay * 22; // 22 trading days: 22, 44, or 66 trades
       const winRatePct = parseInt(document.getElementById('winRateSlider').value);
       const risk = parseFloat(document.getElementById('riskSlider').value);
       const rr = 4.55;
       const payoffPerWin = risk * rr;
-      const baseCapital = 500;
 
       const wins = Math.round(totalTrades * (winRatePct / 100));
       const losses = totalTrades - wins;
@@ -256,16 +267,17 @@
       const totalWinMoney = wins * payoffPerWin;
       const totalLossMoney = losses * risk;
       const netProfit = totalWinMoney - totalLossMoney;
-      const finalEquity = baseCapital + netProfit;
-      const growthPct = ((netProfit / baseCapital) * 100).toFixed(1);
+      const finalEquity = capital + netProfit;
+      const growthPct = ((netProfit / capital) * 100).toFixed(1);
 
       // UPDATE SLIDER LABELS
-      document.getElementById('tradesDisplay').innerText = `${totalTrades} Trades (~${(totalTrades / 22).toFixed(1)}/day)`;
+      document.getElementById('capitalDisplay').innerText = `$${capital.toLocaleString()}`;
+      document.getElementById('frequencyDisplay').innerText = `${tradesPerDay} ${tradesPerDay === 1 ? 'Trade' : 'Trades'} / Day (${totalTrades} Total)`;
       document.getElementById('winRateDisplay').innerText = `${winRatePct}% Win Rate`;
       document.getElementById('riskDisplay').innerText = `$${risk.toFixed(0)} per Trade`;
 
       // UPDATE STAT CARDS
-      document.getElementById('dispBase').innerText = `$${baseCapital}`;
+      document.getElementById('dispBase').innerText = `$${capital.toLocaleString()}`;
       document.getElementById('dispWinLoss').innerText = `${wins}W / ${losses}L`;
       document.getElementById('dispWinRateSub').innerText = `At ${winRatePct}% Win Rate`;
 
@@ -286,7 +298,7 @@
       document.getElementById('themeBtn').innerText = next === 'light' ? 'Mode: Dark' : 'Mode: Light';
     }
 
-    // REDIRECTION LINKS
+    // DIRECT REDIRECTIONS
     function directToWhatsApp(plan) {
       const msg = `Hello Himanshu, I want to enroll in ${plan}. Please share payment and enrollment details.`;
       window.location.href = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUM}&text=${encodeURIComponent(msg)}`;
