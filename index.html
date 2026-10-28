@@ -48,7 +48,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
     }
 
     html {
@@ -68,7 +68,6 @@
       background-size: 100% 100%, 36px 36px, 36px 36px;
     }
 
-    /* TOP LIVE TICKER */
     .ticker-bar {
       background: var(--ticker-bg);
       border-bottom: 1px solid var(--border-subtle);
@@ -137,7 +136,6 @@
       fill: currentColor;
     }
 
-    /* THEME TOGGLE BUTTON */
     .theme-toggle-btn {
       background: rgba(128, 128, 128, 0.12);
       border: 1px solid var(--border-subtle);
@@ -153,17 +151,12 @@
       font-weight: 600;
     }
 
-    .theme-toggle-btn:hover {
-      border-color: var(--gold);
-    }
-
     .theme-toggle-btn svg {
       width: 12px;
       height: 12px;
       fill: currentColor;
     }
 
-    /* NAVBAR */
     .navbar {
       max-width: 1100px;
       margin: 0 auto;
@@ -229,18 +222,12 @@
       white-space: nowrap;
     }
 
-    .cta-nav-btn:active {
-      transform: scale(0.97);
-    }
-
-    /* CONTAINER */
     .container {
       max-width: 1040px;
       margin: 0 auto;
       padding: 24px 20px 80px;
     }
 
-    /* HERO */
     .hero {
       text-align: center;
       padding: 30px 0 40px;
@@ -292,57 +279,88 @@
       line-height: 1.65;
     }
 
-    /* METRIC CARDS GRID */
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+    /* LIVE CALCULATOR STYLING */
+    .calc-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
       max-width: 680px;
       margin: 0 auto 50px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
 
-    @media (min-width: 600px) {
-      .metric-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
+    .calc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
     }
 
-    .metric-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 16px 12px;
+    .calc-title {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.08em;
+    }
+
+    .calc-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      background: rgba(0, 229, 255, 0.1);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .calc-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .calc-input-group label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .calc-slider {
+      width: 100%;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
+    .calc-results {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 14px 10px;
+      border-radius: 8px;
       text-align: center;
     }
 
-    .metric-card:hover {
-      border-color: var(--border);
-    }
-
-    .metric-label {
+    .calc-res-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 9.5px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .metric-val {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 1.1;
+      text-transform: uppercase;
       margin-bottom: 4px;
     }
 
-    .metric-val.risk { color: var(--red); }
-    .metric-val.target { color: var(--cyan); }
-    .metric-val.gold { color: var(--gold-light); }
-
-    .metric-sub {
-      font-size: 10.5px;
-      color: var(--text-muted);
+    .calc-res-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
     }
 
     /* SECTION TITLE */
@@ -367,14 +385,12 @@
       font-weight: 700;
     }
 
-    /* PRICING SECTION CONTAINER */
     .pricing-wrap {
       display: flex;
       flex-direction: column;
       gap: 24px;
       max-width: 880px;
       margin: 0 auto 60px;
-      position: relative;
     }
 
     @media (min-width: 768px) {
@@ -385,16 +401,6 @@
       }
     }
 
-    /* MIDPOINT ANCHOR PIN */
-    #plans-midpoint {
-      width: 100%;
-      height: 1px;
-      pointer-events: none;
-      visibility: hidden;
-      margin: -10px 0;
-    }
-
-    /* PRICING CARD */
     .price-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
@@ -404,10 +410,7 @@
       flex-direction: column;
       justify-content: space-between;
       position: relative;
-    }
-
-    .price-card:hover {
-      border-color: rgba(212, 175, 55, 0.4);
+      scroll-margin-top: 90px;
     }
 
     .price-card.featured {
@@ -415,7 +418,6 @@
       background: linear-gradient(180deg, rgba(212, 175, 55, 0.08) 0%, var(--bg-card) 60%);
       box-shadow: 0 12px 36px rgba(212, 175, 55, 0.15);
     }
-
     .card-ribbon {
       position: absolute;
       top: -12px;
@@ -430,7 +432,6 @@
       text-transform: uppercase;
       padding: 4px 14px;
       border-radius: 50px;
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
       white-space: nowrap;
     }
 
@@ -517,7 +518,6 @@
       gap: 10px;
     }
 
-    /* REDIRECTION BUTTONS */
     .btn-action-primary {
       background: var(--green);
       color: #000;
@@ -533,10 +533,6 @@
       gap: 10px;
       width: 100%;
       box-shadow: 0 4px 16px rgba(37, 211, 102, 0.25);
-    }
-
-    .btn-action-primary:active {
-      transform: scale(0.98);
     }
 
     .btn-action-primary svg {
@@ -567,7 +563,6 @@
       fill: currentColor;
     }
 
-    /* FOOTER */
     .footer {
       border-top: 1px solid var(--border-subtle);
       padding: 30px 20px 40px;
@@ -594,7 +589,7 @@
 </head>
 <body>
 
-  <!-- TOP TICKER BAR WITH MODE SWITCH -->
+  <!-- TOP BAR -->
   <div class="ticker-bar">
     <div class="ticker-left">
       <div class="pulse-dot"></div>
@@ -609,14 +604,13 @@
         <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         Instagram
       </button>
-      <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" aria-label="Toggle theme">
+      <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">
         <svg id="themeIcon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
         <span id="themeLabel">Light</span>
       </button>
     </div>
   </div>
 
-  <!-- MAIN HEADER -->
   <header class="navbar">
     <div class="brand-group">
       <div class="brand-logo-box">HQ</div>
@@ -625,12 +619,11 @@
         <span>Proprietary HFT Scalp Playbook</span>
       </div>
     </div>
-    <!-- REPLACED BUTTON TEXT & CENTER SCROLL TRIGGER -->
-    <button class="cta-nav-btn" onclick="scrollToPlansMiddle()">Get Immediate Access</button>
+    <!-- REDIRECTS TO FIRST PLAN (₹9,999) -->
+    <button class="cta-nav-btn" onclick="scrollToFirstPlan()">Get Immediate Access</button>
   </header>
 
   <main class="container">
-    <!-- HERO SECTION -->
     <section class="hero">
       <div class="badge-wrap">
         <span>⚡ PROPRIETARY M1 XAU/USD ENGINE</span>
@@ -642,37 +635,43 @@
         Turn $22 Hard Risk Into <span class="highlight-cyan">+$100 Profit</span> In <span class="highlight-gold">2–3 Candles.</span>
       </h2>
 
-      <!-- STRATEGY SECRETS REMOVED COMPLETELY -->
       <p class="hero-desc">
         A rule-based, institutional Gold scalping framework engineered for disciplined risk control and high-probability orderflow momentum. Capitalize on trapped liquidity with mathematical expectancy and professional execution precision.
       </p>
 
-      <!-- METRIC CARDS WITHOUT STRATEGY LEAKS -->
-      <div class="metric-grid">
-        <div class="metric-card">
-          <div class="metric-label">ACCOUNT BASE</div>
-          <div class="metric-val gold">$500</div>
-          <div class="metric-sub">Standard Lot Size</div>
+      <!-- RESTORED LIVE ASYMMETRY & EV CALCULATOR -->
+      <div class="calc-card">
+        <div class="calc-header">
+          <span class="calc-title">Interactive Asymmetry & EV Simulator</span>
+          <span class="calc-badge">Live Math</span>
         </div>
-        <div class="metric-card">
-          <div class="metric-label">DEFINED RISK</div>
-          <div class="metric-val risk">-$22.00</div>
-          <div class="metric-sub">Strict Model Cap</div>
+        <div class="calc-controls">
+          <div class="calc-input-group">
+            <label>Hard Risk: <span id="riskLabel" style="color:var(--red); font-weight:700;">$22</span></label>
+            <input type="range" class="calc-slider" id="riskInput" min="10" max="100" step="1" value="22" oninput="runCalculator()">
+          </div>
+          <div class="calc-input-group">
+            <label>R:R Ratio: <span id="rrLabel" style="color:var(--gold-light); font-weight:700;">1:4.55</span></label>
+            <input type="range" class="calc-slider" id="rrInput" min="2.0" max="6.0" step="0.05" value="4.55" oninput="runCalculator()">
+          </div>
         </div>
-        <div class="metric-card">
-          <div class="metric-label">TARGET PAYOFF</div>
-          <div class="metric-val target">+$100.00</div>
-          <div class="metric-sub">1:4.5+ Asymmetric</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">VELOCITY</div>
-          <div class="metric-val">2–3 Min</div>
-          <div class="metric-sub">Momentum Push</div>
+        <div class="calc-results">
+          <div>
+            <div class="calc-res-label">Gross Return</div>
+            <div class="calc-res-val" id="resGross" style="color:var(--cyan);">+$100.10</div>
+          </div>
+          <div>
+            <div class="calc-res-label">Net Profit</div>
+            <div class="calc-res-val" id="resNet" style="color:var(--green);">+$100.10</div>
+          </div>
+          <div>
+            <div class="calc-res-label">10-Trade EV (40% WR)</div>
+            <div class="calc-res-val" id="resEV" style="color:var(--gold-light);">+$268.40</div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ENROLLMENT SECTION -->
     <section>
       <div class="section-head">
         <span class="section-tag">Direct Institutional Access</span>
@@ -680,8 +679,8 @@
       </div>
 
       <div class="pricing-wrap">
-        <!-- PLAN 1: PDF PLAYBOOK -->
-        <div class="price-card" id="tier-playbook">
+        <!-- PLAN 1: PDF PLAYBOOK (₹9,999) -->
+        <div class="price-card" id="plan-playbook">
           <div>
             <span class="tier-badge">Self-Paced Execution</span>
             <h4 class="tier-name">Proprietary Playbook</h4>
@@ -694,7 +693,7 @@
 
             <ul class="tier-features">
               <li>
-                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l 4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
                 Complete HFT Setup Execution PDF Guide
               </li>
               <li>
@@ -724,11 +723,8 @@
           </div>
         </div>
 
-        <!-- INVISIBLE ANCHOR POSITIONED BETWEEN THE TWO TIERS -->
-        <div id="plans-midpoint"></div>
-
         <!-- PLAN 2: 1-ON-1 MENTORSHIP -->
-        <div class="price-card featured" id="tier-mentorship">
+        <div class="price-card featured" id="plan-mentorship">
           <div class="card-ribbon">EXCLUSIVE • 5 TRADERS / MONTH</div>
           <div>
             <span class="tier-badge">Private Intensive</span>
@@ -787,13 +783,34 @@
     const WHATSAPP_NUM = "918369881031";
     const INSTAGRAM_HANDLE = "him.tiw";
 
-    function scrollToPlansMiddle() {
-      const midpoint = document.getElementById('plans-midpoint');
-      if (midpoint) {
-        midpoint.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // SCROLL SMOOTHLY TO FIRST PLAN (₹9,999)
+    function scrollToFirstPlan() {
+      const plan = document.getElementById('plan-playbook');
+      if (plan) {
+        plan.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
 
+    // CALCULATOR LOGIC
+    function runCalculator() {
+      const risk = parseFloat(document.getElementById('riskInput').value);
+      const rr = parseFloat(document.getElementById('rrInput').value);
+      
+      document.getElementById('riskLabel').innerText = `$${risk.toFixed(0)}`;
+      document.getElementById('rrLabel').innerText = `1:${rr.toFixed(2)}`;
+
+      const profit = risk * rr;
+      document.getElementById('resGross').innerText = `+$${profit.toFixed(2)}`;
+      document.getElementById('resNet').innerText = `+$${profit.toFixed(2)}`;
+
+      // EV calculation for 10 trades assuming 40% win rate
+      const ev10 = (4 * profit) - (6 * risk);
+      const evElement = document.getElementById('resEV');
+      evElement.innerText = (ev10 >= 0 ? '+' : '') + `$${ev10.toFixed(2)}`;
+      evElement.style.color = ev10 >= 0 ? 'var(--gold-light)' : 'var(--red)';
+    }
+
+    // THEME TOGGLE
     function toggleTheme() {
       const html = document.documentElement;
       const current = html.getAttribute('data-theme');
@@ -805,13 +822,14 @@
       
       if (next === 'light') {
         label.innerText = 'Dark';
-        icon.innerHTML = '<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>';
+        icon.innerHTM L = '<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>';
       } else {
         label.innerText = 'Light';
         icon.innerHTML = '<path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>';
       }
     }
 
+    // DIRECT SOCIAL REDIRECTIONS
     function directToWhatsApp(planName) {
       const text = `Hello Himanshu, I want to enroll in ${planName}. Please share payment and enrollment details.`;
       const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUM}&text=${encodeURIComponent(text)}`;
@@ -825,5 +843,3 @@
   </script>
 </body>
 </html>
-
-                                           
