@@ -245,7 +245,7 @@
     </div>
     <span id="musicLabel">▶ PLAY MUSIC</span>
   </div>
-  <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+  <audio id="bgMusic" src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" preload="auto" loop></audio>
 
   <footer class="footer">
     <strong>HIMANSHU QUANTITATIVE LABS</strong>
@@ -330,30 +330,31 @@
         updateCalculator();
       }
 
-      const audio = document.getElementById('bgMusic');
+            const audio = document.getElementById('bgMusic');
       const toggleBtn = document.getElementById('musicToggleBtn');
       const musicLabel = document.getElementById('musicLabel');
-      let isPlaying = false;
+
       audio.volume = 0.50;
 
-      function toggleAudio() {
-        if (!isPlaying) {
+      function toggleAudio(e) {
+        if (e) e.preventDefault();
+        if (audio.paused) {
           audio.play().then(function() {
-            isPlaying = true;
             musicLabel.innerText = "⏸ MUTE MUSIC";
             toggleBtn.classList.add('playing');
           }).catch(function(err) {
-            console.log("Audio waiting for user tap:", err);
+            console.error("Audio playback error:", err);
           });
         } else {
           audio.pause();
-          isPlaying = false;
           musicLabel.innerText = "▶ PLAY MUSIC";
           toggleBtn.classList.remove('playing');
         }
       }
 
       toggleBtn.addEventListener('click', toggleAudio);
+      toggleBtn.addEventListener('touchend', toggleAudio);
+
 
       document.getElementById('topChatBtn').addEventListener('click', function () { openWhatsApp('General Inquiry'); });
       document.getElementById('topInstaBtn').addEventListener('click', openInstagram);
