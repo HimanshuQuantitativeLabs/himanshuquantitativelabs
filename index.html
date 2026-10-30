@@ -64,35 +64,6 @@
     .btn-action-primary{background:var(--green);color:#000;font-weight:700;font-size:13.5px;padding:14px;border-radius:8px;border:none;cursor:pointer;width:100%}
     .btn-action-secondary{background:rgba(128,128,128,.05);border:1px solid var(--border-subtle);color:var(--text-main);font-weight:600;font-size:12.5px;padding:11px;border-radius:8px;cursor:pointer;width:100%}
     .footer{border-top:1px solid var(--border-subtle);padding:30px 20px;text-align:center;font-size:12px;color:var(--text-muted)}
-
-    .  <!-- Self-Contained Music Player -->
-  <audio id="bgMusic" src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" preload="auto" loop></audio>
-  
-  <button type="button" class="audio-player-pill" id="musicToggleBtn" onclick="toggleAudioDirect()">
-    <span id="musicLabel">▶ PLAY MUSIC</span>
-  </button>
-
-  <script>
-    function toggleAudioDirect() {
-      var audio = document.getElementById('bgMusic');
-      var label = document.getElementById('musicLabel');
-      var btn = document.getElementById('musicToggleBtn');
-      if (audio.paused) {
-        audio.play();
-        label.innerText = '⏸ MUTE MUSIC';
-        btn.classList.add('playing');
-      } else {
-        audio.pause();
-        label.innerText = '▶ PLAY MUSIC';
-        btn.classList.remove('playing');
-      }
-    }
-  </script>
-      
-    .playing .audio-bar:nth-child(1){animation:soundWave 0.8s infinite ease-in-out alternate}
-    .playing .audio-bar:nth-child(2){animation:soundWave 0.5s infinite ease-in-out alternate 0.2s}
-    .playing .audio-bar:nth-child(3){animation:soundWave 0.7s infinite ease-in-out alternate 0.4s}
-    @keyframes soundWave{0%{height:4px}100%{height:14px}}
   </style>
 </head>
 <body>
@@ -257,20 +228,16 @@
     </section>
   </main>
 
-  <div class="audio-player-pill" id="musicToggleBtn">
-    <div class="audio-bars" id="audioBars">
-      <div class="audio-bar"></div>
-      <div class="audio-bar"></div>
-      <div class="audio-bar"></div>
-    </div>
-    <span id="musicLabel">▶ PLAY MUSIC</span>
-  </div>
-  <audio id="bgMusic" src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" preload="auto" loop></audio>
-
   <footer class="footer">
     <strong>HIMANSHU QUANTITATIVE LABS</strong>
     <p style="margin-top:6px;">Trading financial instruments carries risk. For educational purposes only.</p>
   </footer>
+
+  <!-- Floating Audio Player Widget -->
+  <div style="position:fixed;bottom:16px;right:16px;z-index:9999;background:rgba(12,16,23,0.95);border:1.5px solid #d4af37;border-radius:30px;padding:6px 12px;box-shadow:0 8px 24px rgba(0,0,0,0.7);display:flex;align-items:center;gap:8px;">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#f5d77f;">PLAY MUSIC:</span>
+    <audio controls controlslist="nodownload noplaybackrate" style="height:32px;max-width:180px;" src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3"></audio>
+  </div>
     <script>
     (function () {
       const WHATSAPP_NUM = "918369881031";
@@ -349,32 +316,6 @@
         }
         updateCalculator();
       }
-
-            const audio = document.getElementById('bgMusic');
-      const toggleBtn = document.getElementById('musicToggleBtn');
-      const musicLabel = document.getElementById('musicLabel');
-
-      audio.volume = 0.50;
-
-      function toggleAudio(e) {
-        if (e) e.preventDefault();
-        if (audio.paused) {
-          audio.play().then(function() {
-            musicLabel.innerText = "⏸ MUTE MUSIC";
-            toggleBtn.classList.add('playing');
-          }).catch(function(err) {
-            console.error("Audio playback error:", err);
-          });
-        } else {
-          audio.pause();
-          musicLabel.innerText = "▶ PLAY MUSIC";
-          toggleBtn.classList.remove('playing');
-        }
-      }
-
-      toggleBtn.addEventListener('click', toggleAudio);
-      toggleBtn.addEventListener('touchend', toggleAudio);
-
 
       document.getElementById('topChatBtn').addEventListener('click', function () { openWhatsApp('General Inquiry'); });
       document.getElementById('topInstaBtn').addEventListener('click', openInstagram);
