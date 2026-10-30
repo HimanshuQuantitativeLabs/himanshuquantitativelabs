@@ -65,8 +65,8 @@
     .btn-action-secondary{background:rgba(128,128,128,.05);border:1px solid var(--border-subtle);color:var(--text-main);font-weight:600;font-size:12.5px;padding:11px;border-radius:8px;cursor:pointer;width:100%}
     .footer{border-top:1px solid var(--border-subtle);padding:30px 20px;text-align:center;font-size:12px;color:var(--text-muted)}
 
-    /* Music Player Floating Badge */
-    .audio-player-pill{position:fixed;bottom:20px;right:20px;z-index:999;background:rgba(12,16,23,0.85);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:50px;padding:8px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.5);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--gold-light);transition:transform .2s,border-color .2s}
+    /* Floating Audio Player */
+    .audio-player-pill{position:fixed;bottom:20px;right:20px;z-index:999;background:rgba(12,16,23,0.92);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:50px;padding:8px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.5);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--gold-light);transition:transform .2s,border-color .2s}
     .audio-player-pill:hover{transform:translateY(-2px);border-color:var(--gold)}
     .audio-bars{display:flex;align-items:flex-end;gap:2px;height:14px}
     .audio-bar{width:3px;background:var(--gold);border-radius:2px;height:4px;transition:height .2s}
@@ -253,8 +253,7 @@
     <strong>HIMANSHU QUANTITATIVE LABS</strong>
     <p style="margin-top:6px;">Trading financial instruments carries risk. For educational purposes only.</p>
   </footer>
-
-  <script>
+    <script>
     (function () {
       const WHATSAPP_NUM = "918369881031";
       const INSTAGRAM_HANDLE = "him.tiw";
@@ -307,7 +306,8 @@
         document.getElementById('monthsDisplay').innerText = months + (months === 1 ? ' Month' : ' Months') + ' (' + tradingDays + ' Trading Days)';
         document.getElementById('capitalDisplay').innerText = '$' + capital.toLocaleString();
         document.getElementById('frequencyDisplay').innerText = tradesPerDay + (tradesPerDay === 1 ? ' Trade' : ' Trades') + ' / Day (' + totalTrades + ' Total)';
-        document.getElementById('winRateDisplay').innerText = winRatePct + '% Win Rate';        document.getElementById('riskDisplay').innerText = '$' + risk.toFixed(0) + ' (' + riskPct + '% Risk)';
+        document.getElementById('winRateDisplay').innerText = winRatePct + '% Win Rate';
+        document.getElementById('riskDisplay').innerText = '$' + risk.toFixed(0) + ' (' + riskPct + '% Risk)';
 
         document.getElementById('dispBase').innerText = '$' + capital.toLocaleString();
         document.getElementById('dispWinLoss').innerText = wins + 'W / ' + losses + 'L';
@@ -332,26 +332,26 @@
         updateCalculator();
       }
 
-      // Audio Control Logic
+      // Audio Control
       const audio = document.getElementById('bgMusic');
       const toggleBtn = document.getElementById('musicToggleBtn');
       const musicLabel = document.getElementById('musicLabel');
       let isPlaying = false;
-      audio.volume = 0.35;
+      audio.volume = 0.40;
 
       function toggleAudio() {
         if (!isPlaying) {
           audio.play().then(function() {
             isPlaying = true;
-            musicLabel.innerText = "⏸ MUTE SOUND";
+            musicLabel.innerText = "⏸ MUTE MUSIC";
             toggleBtn.classList.add('playing');
           }).catch(function(err) {
-            console.log("Autoplay blocked:", err);
+            console.log("Audio play error:", err);
           });
         } else {
           audio.pause();
           isPlaying = false;
-          musicLabel.innerText = "▶ PLAY MOTIVATION";
+          musicLabel.innerText = "▶ PLAY MUSIC";
           toggleBtn.classList.remove('playing');
         }
       }
@@ -366,7 +366,7 @@
       }
       window.addEventListener('pointerdown', startOnFirstTouch, { once: true });
 
-      // Button Binds
+      // Button Handlers
       document.getElementById('topChatBtn').addEventListener('click', function () { openWhatsApp('General Inquiry'); });
       document.getElementById('topInstaBtn').addEventListener('click', openInstagram);
       document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
@@ -389,3 +389,5 @@
   </script>
 </body>
 </html>
+
+  
