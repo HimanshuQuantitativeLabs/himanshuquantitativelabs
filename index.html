@@ -65,10 +65,30 @@
     .btn-action-secondary{background:rgba(128,128,128,.05);border:1px solid var(--border-subtle);color:var(--text-main);font-weight:600;font-size:12.5px;padding:11px;border-radius:8px;cursor:pointer;width:100%}
     .footer{border-top:1px solid var(--border-subtle);padding:30px 20px;text-align:center;font-size:12px;color:var(--text-muted)}
 
-    .audio-player-pill{position:fixed;bottom:20px;right:20px;z-index:999;background:rgba(12,16,23,0.92);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:50px;padding:8px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.5);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--gold-light);transition:transform .2s,border-color .2s}
-    .audio-player-pill:hover{transform:translateY(-2px);border-color:var(--gold)}
-    .audio-bars{display:flex;align-items:flex-end;gap:2px;height:14px}
-    .audio-bar{width:3px;background:var(--gold);border-radius:2px;height:4px;transition:height .2s}
+    .  <!-- Self-Contained Music Player -->
+  <audio id="bgMusic" src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" preload="auto" loop></audio>
+  
+  <button type="button" class="audio-player-pill" id="musicToggleBtn" onclick="toggleAudioDirect()">
+    <span id="musicLabel">▶ PLAY MUSIC</span>
+  </button>
+
+  <script>
+    function toggleAudioDirect() {
+      var audio = document.getElementById('bgMusic');
+      var label = document.getElementById('musicLabel');
+      var btn = document.getElementById('musicToggleBtn');
+      if (audio.paused) {
+        audio.play();
+        label.innerText = '⏸ MUTE MUSIC';
+        btn.classList.add('playing');
+      } else {
+        audio.pause();
+        label.innerText = '▶ PLAY MUSIC';
+        btn.classList.remove('playing');
+      }
+    }
+  </script>
+      
     .playing .audio-bar:nth-child(1){animation:soundWave 0.8s infinite ease-in-out alternate}
     .playing .audio-bar:nth-child(2){animation:soundWave 0.5s infinite ease-in-out alternate 0.2s}
     .playing .audio-bar:nth-child(3){animation:soundWave 0.7s infinite ease-in-out alternate 0.4s}
