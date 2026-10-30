@@ -64,6 +64,16 @@
     .btn-action-primary{background:var(--green);color:#000;font-weight:700;font-size:13.5px;padding:14px;border-radius:8px;border:none;cursor:pointer;width:100%}
     .btn-action-secondary{background:rgba(128,128,128,.05);border:1px solid var(--border-subtle);color:var(--text-main);font-weight:600;font-size:12.5px;padding:11px;border-radius:8px;cursor:pointer;width:100%}
     .footer{border-top:1px solid var(--border-subtle);padding:30px 20px;text-align:center;font-size:12px;color:var(--text-muted)}
+
+    /* Music Player Floating Badge */
+    .audio-player-pill{position:fixed;bottom:20px;right:20px;z-index:999;background:rgba(12,16,23,0.85);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:50px;padding:8px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.5);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--gold-light);transition:transform .2s,border-color .2s}
+    .audio-player-pill:hover{transform:translateY(-2px);border-color:var(--gold)}
+    .audio-bars{display:flex;align-items:flex-end;gap:2px;height:14px}
+    .audio-bar{width:3px;background:var(--gold);border-radius:2px;height:4px;transition:height .2s}
+    .playing .audio-bar:nth-child(1){animation:soundWave 0.8s infinite ease-in-out alternate}
+    .playing .audio-bar:nth-child(2){animation:soundWave 0.5s infinite ease-in-out alternate 0.2s}
+    .playing .audio-bar:nth-child(3){animation:soundWave 0.7s infinite ease-in-out alternate 0.4s}
+    @keyframes soundWave{0%{height:4px}100%{height:14px}}
   </style>
 </head>
 <body>
@@ -228,6 +238,17 @@
     </section>
   </main>
 
+  <!-- Audio Floating Button -->
+  <div class="audio-player-pill" id="musicToggleBtn">
+    <div class="audio-bars" id="audioBars">
+      <div class="audio-bar"></div>
+      <div class="audio-bar"></div>
+      <div class="audio-bar"></div>
+    </div>
+    <span id="musicLabel">▶ PLAY MOTIVATION</span>
+  </div>
+  <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+
   <footer class="footer">
     <strong>HIMANSHU QUANTITATIVE LABS</strong>
     <p style="margin-top:6px;">Trading financial instruments carries risk. For educational purposes only.</p>
@@ -244,7 +265,7 @@
       }
 
       function openInstagram() {
-        window.location.href = "https://instagram.com/" + INSTAGRAM_HANDLE;
+        window.location.href = "https://ig.me/m/" + INSTAGRAM_HANDLE;
       }
 
       function scrollToPlanOne() {
@@ -286,8 +307,7 @@
         document.getElementById('monthsDisplay').innerText = months + (months === 1 ? ' Month' : ' Months') + ' (' + tradingDays + ' Trading Days)';
         document.getElementById('capitalDisplay').innerText = '$' + capital.toLocaleString();
         document.getElementById('frequencyDisplay').innerText = tradesPerDay + (tradesPerDay === 1 ? ' Trade' : ' Trades') + ' / Day (' + totalTrades + ' Total)';
-        document.getElementById('winRateDisplay').innerText = winRatePct + '% Win Rate';
-        document.getElementById('riskDisplay').innerText = '$' + risk.toFixed(0) + ' (' + riskPct + '% Risk)';
+        document.getElementById('winRateDisplay').innerText = winRatePct + '% Win Rate';        document.getElementById('riskDisplay').innerText = '$' + risk.toFixed(0) + ' (' + riskPct + '% Risk)';
 
         document.getElementById('dispBase').innerText = '$' + capital.toLocaleString();
         document.getElementById('dispWinLoss').innerText = wins + 'W / ' + losses + 'L';
@@ -312,6 +332,41 @@
         updateCalculator();
       }
 
+      // Audio Control Logic
+      const audio = document.getElementById('bgMusic');
+      const toggleBtn = document.getElementById('musicToggleBtn');
+      const musicLabel = document.getElementById('musicLabel');
+      let isPlaying = false;
+      audio.volume = 0.35;
+
+      function toggleAudio() {
+        if (!isPlaying) {
+          audio.play().then(function() {
+            isPlaying = true;
+            musicLabel.innerText = "⏸ MUTE SOUND";
+            toggleBtn.classList.add('playing');
+          }).catch(function(err) {
+            console.log("Autoplay blocked:", err);
+          });
+        } else {
+          audio.pause();
+          isPlaying = false;
+          musicLabel.innerText = "▶ PLAY MOTIVATION";
+          toggleBtn.classList.remove('playing');
+        }
+      }
+
+      toggleBtn.addEventListener('click', toggleAudio);
+
+      function startOnFirstTouch() {
+        if (!isPlaying) {
+          toggleAudio();
+        }
+        window.removeEventListener('pointerdown', startOnFirstTouch);
+      }
+      window.addEventListener('pointerdown', startOnFirstTouch, { once: true });
+
+      // Button Binds
       document.getElementById('topChatBtn').addEventListener('click', function () { openWhatsApp('General Inquiry'); });
       document.getElementById('topInstaBtn').addEventListener('click', openInstagram);
       document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
