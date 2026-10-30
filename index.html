@@ -118,9 +118,9 @@
           <div class="slider-row">
             <div class="calc-slider-header">
               <span style="color:var(--text-muted);">Allocated Capital Base:</span>
-              <span id="capitalDisplay" style="color:var(--gold-light); font-weight:700;">$1,000</span>
+              <span id="capitalDisplay" style="color:var(--gold-light); font-weight:700;">$500</span>
             </div>
-            <input type="range" class="calc-slider" id="capitalSlider" min="300" max="10000" step="100" value="1000">
+            <input type="range" class="calc-slider" id="capitalSlider" min="500" max="10000" step="100" value="500">
           </div>
 
           <div class="slider-row">
@@ -142,16 +142,16 @@
           <div class="slider-row">
             <div class="calc-slider-header">
               <span style="color:var(--text-muted);">Risk Threshold Per Execution (5% Cap):</span>
-              <span id="riskDisplay" style="color:var(--red); font-weight:700;">$44 (4.4% Risk)</span>
+              <span id="riskDisplay" style="color:var(--red); font-weight:700;">$25 (5.0% Risk)</span>
             </div>
-            <input type="range" class="calc-slider" id="riskSlider" min="5" max="50" step="1" value="44">
+            <input type="range" class="calc-slider" id="riskSlider" min="5" max="25" step="1" value="25">
           </div>
         </div>
 
         <div class="metric-grid">
           <div class="metric-card">
             <div class="metric-label">STARTING CAPITAL</div>
-            <div class="metric-val" id="dispBase" style="color:var(--gold-light);">$1,000</div>
+            <div class="metric-val" id="dispBase" style="color:var(--gold-light);">$500</div>
             <div class="metric-sub">Capital Preserved</div>
           </div>
           <div class="metric-card">
@@ -161,13 +161,13 @@
           </div>
           <div class="metric-card">
             <div class="metric-label">NET SIMULATED PROFIT</div>
-            <div class="metric-val" id="dispProfit" style="color:var(--green);">+$497.20</div>
+            <div class="metric-val" id="dispProfit" style="color:var(--green);">+$282.50</div>
             <div class="metric-sub">Net Mathematical Expectancy</div>
           </div>
           <div class="metric-card">
             <div class="metric-label">PROJECTED EQUITY</div>
-            <div class="metric-val" id="dispEquity" style="color:var(--gold-light);">$1,497.20</div>
-            <div class="metric-sub" id="dispGrowthSub">+49.7% Growth</div>
+            <div class="metric-val" id="dispEquity" style="color:var(--gold-light);">$782.50</div>
+            <div class="metric-sub" id="dispGrowthSub">+56.5% Growth</div>
           </div>
         </div>
       </div>
@@ -266,7 +266,8 @@
         const current = html.getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-theme', next);
-        document.getElementById('themeToggleBtn').innerText = next === 'light' ? 'Mode: Dark' : 'Mode: Light';
+        const btn = document.getElementById('themeToggleBtn');
+        if (btn) btn.innerText = next === 'light' ? 'Mode: Dark' : 'Mode: Light';
       }
 
       function updateCalculator() {
@@ -293,7 +294,7 @@
         document.getElementById('capitalDisplay').innerText = '$' + capital.toLocaleString();
         document.getElementById('frequencyDisplay').innerText = tradesPerDay + (tradesPerDay === 1 ? ' Trade' : ' Trades') + ' / Day (' + totalTrades + ' Total)';
         document.getElementById('winRateDisplay').innerText = winRatePct + '% Win Rate';
-        document.getElementById('riskDnnerText = '$' + risk.toFixed(0) + ' (' + riskPct + '% Risk)';
+        document.getElementById('riskDisplay').innerText = '$' + risk.toFixed(0) + ' (' + riskPct + '% Risk)';
 
         document.getElementById('dispBase').innerText = '$' + capital.toLocaleString();
         document.getElementById('dispWinLoss').innerText = wins + 'W / ' + losses + 'L';
@@ -339,4 +340,4 @@
     })();
   </script>
 </body>
-</html>
+</html>                    
