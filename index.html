@@ -251,7 +251,7 @@
     <strong>HIMANSHU QUANTITATIVE LABS</strong>
     <p style="margin-top:6px;">Trading financial instruments carries risk. For educational purposes only.</p>
   </footer>
-  <script>
+    <script>
     (function () {
       const WHATSAPP_NUM = "918369881031";
       const INSTAGRAM_HANDLE = "him.tiw";
@@ -334,7 +334,7 @@
       const toggleBtn = document.getElementById('musicToggleBtn');
       const musicLabel = document.getElementById('musicLabel');
       let isPlaying = false;
-      audio.volume = 0.40;
+      audio.volume = 0.50;
 
       function toggleAudio() {
         if (!isPlaying) {
@@ -343,7 +343,7 @@
             musicLabel.innerText = "⏸ MUTE MUSIC";
             toggleBtn.classList.add('playing');
           }).catch(function(err) {
-            alert("Playback error: " + err.message);
+            console.log("Audio waiting for user tap:", err);
           });
         } else {
           audio.pause();
@@ -354,14 +354,6 @@
       }
 
       toggleBtn.addEventListener('click', toggleAudio);
-
-      function startOnFirstTouch() {
-        if (!isPlaying) {
-          toggleAudio();
-        }
-        window.removeEventListener('pointerdown', startOnFirstTouch);
-      }
-      window.addEventListener('pointerdown', startOnFirstTouch, { once: true });
 
       document.getElementById('topChatBtn').addEventListener('click', function () { openWhatsApp('General Inquiry'); });
       document.getElementById('topInstaBtn').addEventListener('click', openInstagram);
@@ -385,5 +377,3 @@
   </script>
 </body>
 </html>
-
-                                                                                                                               
