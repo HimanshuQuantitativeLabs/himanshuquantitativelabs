@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Himanshu Quantitative Labs | Asymmetric Orderflow Playbook</title>
+  <title>Himanshu Quantitative Labs | Orderflow Execution Desk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -81,7 +81,7 @@
       <div class="brand-logo-box">HQL</div>
       <div class="brand-text">
         <h1>HIMANSHU QUANTITATIVE LABS</h1>
-        <span>ALPHA ARCHITECTURE &bull; ORDERFLOW EXECUTION</span>
+        <span>ALPHA CORE &bull; ORDERFLOW EXECUTION</span>
       </div>
     </div>
     <button class="cta-nav-btn" id="ctaAccessBtn">Request Allocation</button>
@@ -183,21 +183,21 @@
         <div class="price-card" id="tierOneCard">
           <div>
             <span class="tier-badge">Self-Paced Execution</span>
-            <h4 class="tier-name">Proprietary Orderflow Playbook</h4>
+            <h4 class="tier-name">The Execution Specification</h4>
             <p class="tier-summary">The complete institutional Gold scalp blueprint with full setup rules and mathematical risk protocols.</p>
             <div class="price-block">
               <span class="price-num">₹9,999</span>
               <span class="price-curr">INR (~$119 USD)</span>
             </div>
             <ul class="tier-features">
-              <li>✓ Complete M1 Gold Execution Protocol (PDF Architecture)</li>
+              <li>✓ Complete M1 Gold Execution Protocol (Institutional Standard)</li>
               <li>✓ Institutional Liquidity &amp; Sweep Identification Blueprint</li>
               <li>✓ The +EV Risk &amp; Capital Preservation Formula</li>
               <li>✓ Direct Implementation Desk Access via WhatsApp</li>
             </ul>
           </div>
           <div class="tier-actions">
-            <button class="btn-action-primary" id="buyPlaybookWa">Acquire Protocol on WhatsApp</button>
+            <button class="btn-action-primary" id="buyPlaybookWa">Acquire Specification on WhatsApp</button>
             <button class="btn-action-secondary" id="buyPlaybookIg">Inquire via Instagram DM (@him.tiw)</button>
           </div>
         </div>
@@ -213,7 +213,7 @@
               <span class="price-curr">INR (~$359 USD)</span>
             </div>
             <ul class="tier-features">
-              <li>✓ Includes Full Core Playbook &amp; Protocol Architecture</li>
+              <li>✓ Includes Full Core Execution Specification</li>
               <li>✓ 1-on-1 Private Live Screen-Share Sessions</li>
               <li>✓ Personal Live Trade &amp; Terminal Orderflow Audits</li>
               <li>✓ Direct Priority Desk Communication Channel</li>
@@ -227,8 +227,7 @@
       </div>
     </section>
   </main>
-
-  <footer class="footer">
+    <footer class="footer">
     <strong>HIMANSHU QUANTITATIVE LABS</strong>
     <p style="margin-top:6px;">Trading spot and leveraged instruments involves substantial risk of loss. For educational and research purposes only.</p>
   </footer>
@@ -244,8 +243,8 @@
       const WHATSAPP_NUM = "918369881031";
       const INSTAGRAM_HANDLE = "him.tiw";
 
-      function openWhatsApp(plan) {
-        const msg = encodeURIComponent("Hello Himanshu, I want to enroll in " + plan + ". Please share payment and enrollment details.");
+      function openWhatsApp(msgText) {
+        const msg = encodeURIComponent(msgText);
         window.location.href = "https://api.whatsapp.com/send?phone=" + WHATSAPP_NUM + "&text=" + msg;
       }
 
@@ -319,13 +318,22 @@
         updateCalculator();
       }
 
-      document.getElementById('topChatBtn').addEventListener('click', function () { openWhatsApp('General Inquiry'); });
+      document.getElementById('topChatBtn').addEventListener('click', function () {
+        openWhatsApp('Hello Himanshu, I would like to make an inquiry regarding the Quantitative Execution Desk.');
+      });
+
+      document.getElementById('buyPlaybookWa').addEventListener('click', function () {
+        openWhatsApp('Hello Himanshu, I would like to acquire The Execution Specification (₹9,999). Please share access and payment details.');
+      });
+
+      document.getElementById('applyMentorWa').addEventListener('click', function () {
+        openWhatsApp('Hello Himanshu, I am applying for the 1-on-1 Desk Mentorship (₹29,999). Please share seat availability and payment details.');
+      });
+
       document.getElementById('topInstaBtn').addEventListener('click', openInstagram);
       document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
       document.getElementById('ctaAccessBtn').addEventListener('click', scrollToPlanOne);
-      document.getElementById('buyPlaybookWa').addEventListener('click', function () { openWhatsApp('Proprietary Playbook (₹9,999)'); });
       document.getElementById('buyPlaybookIg').addEventListener('click', openInstagram);
-      document.getElementById('applyMentorWa').addEventListener('click', function () { openWhatsApp('Elite 1-on-1 Mentorship (₹29,999)'); });
       document.getElementById('applyMentorIg').addEventListener('click', openInstagram);
 
       ['input', 'change'].forEach(function (evt) {
@@ -340,4 +348,4 @@
     })();
   </script>
 </body>
-</html>                    
+</html>
